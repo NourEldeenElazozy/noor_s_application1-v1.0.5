@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
+import 'package:noor_s_application1/presentation/shopping_bag_screen/shopping_bag_screen.dart';
 
 // ignore: must_be_immutable
 class AppbarLeadingImage extends StatelessWidget {
@@ -22,7 +23,7 @@ class AppbarLeadingImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        onTap!.call();
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>ShoppingBagScreen()));
       },
       child: Padding(
         padding: margin ?? EdgeInsets.zero,

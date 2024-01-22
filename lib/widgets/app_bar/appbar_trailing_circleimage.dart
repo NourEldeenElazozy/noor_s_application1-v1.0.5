@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
+import 'package:noor_s_application1/presentation/profile_screen/profile_screen.dart';
 
 // ignore: must_be_immutable
 class AppbarTrailingCircleimage extends StatelessWidget {
@@ -23,7 +24,7 @@ class AppbarTrailingCircleimage extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadiusStyle.circleBorder14,
       onTap: () {
-        onTap!.call();
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>ProfileScreen()));
       },
       child: Padding(
         padding: margin ?? EdgeInsets.zero,

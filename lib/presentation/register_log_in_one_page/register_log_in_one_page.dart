@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
+import 'package:noor_s_application1/presentation/main_page/main_page.dart';
+import 'package:noor_s_application1/presentation/main_page_one_screen/main_page_one_screen.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 
 class RegisterLogInOnePage extends StatefulWidget {
@@ -153,6 +155,6 @@ class RegisterLogInOnePageState extends State<RegisterLogInOnePage>
 
   /// Navigates to the ordersScreen when the action is triggered.
   onTaptf(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.ordersScreen);
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPageOneScreen()));
   }
 }
