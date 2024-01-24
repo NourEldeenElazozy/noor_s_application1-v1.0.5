@@ -76,17 +76,29 @@ class SectionsPage extends StatelessWidget {
                                                     bottom: 7.v))
                                           ]))),
                               SizedBox(height: 21.v),
-                        SizedBox(
-                            height: 80.v,
-                            child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                separatorBuilder: (context, index) {
-                                  return SizedBox(width: 17.h);
-                                },
-                                itemCount: sectionsController.products.length,
-                                itemBuilder: (context, index) {
-                                  return FramenineItemWidget(sectionsController.products[index].name);
-                                })),
+                              Obx(() {
+                                if (sectionsController.isLoading.value) {
+                                  return Center(child: CircularProgressIndicator());
+                                }
+
+                                if (sectionsController.error.value.isNotEmpty) {
+                                  return Center(child: Text(sectionsController.error.value));
+                                }
+
+                                return SizedBox(
+                                  height: 80.v,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    separatorBuilder: (context, index) {
+                                      return SizedBox(width: 17.h);
+                                    },
+                                    itemCount: sectionsController.products.length,
+                                    itemBuilder: (context, index) {
+                                      return FramenineItemWidget(sectionsController.products[index].name);
+                                    },
+                                  ),
+                                );
+                              }),
                               SizedBox(height: 39.v),
                               Align(
                                   alignment: Alignment.centerRight,
