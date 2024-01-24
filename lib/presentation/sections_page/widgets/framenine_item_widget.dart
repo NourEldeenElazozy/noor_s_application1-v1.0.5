@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
 
 // ignore: must_be_immutable
-class FramenineItemWidget extends StatelessWidget {
-  const FramenineItemWidget({Key? key})
-      : super(
-          key: key,
-        );
+
 
   @override
-  Widget build(BuildContext context) {
+  Widget FramenineItemWidget(section) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 9.h,
@@ -20,28 +16,32 @@ class FramenineItemWidget extends StatelessWidget {
       ),
       width: 155.h,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
+
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 2.v),
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "الأحذية",
-                  style: CustomTextStyles.titleSmallBlack90003Bold,
+                  section,
+                  style: CustomTextStyles.titleMediumBlack90004,
                 ),
               ),
+              /*
               CustomImageView(
                 imagePath: ImageConstant.imgCasualTShirt,
                 height: 18.adaptSize,
                 width: 18.adaptSize,
                 margin: EdgeInsets.only(left: 12.h),
               ),
+               */
             ],
           ),
-          SizedBox(height: 17.v),
+
+          /*
           Padding(
             padding: EdgeInsets.only(right: 30.h),
             child: Text(
@@ -49,9 +49,10 @@ class FramenineItemWidget extends StatelessWidget {
               style: CustomTextStyles.bodySmallWhiteA700,
             ),
           ),
-          SizedBox(height: 8.v),
+           */
+         // SizedBox(height: 8.v),
         ],
       ),
     );
   }
-}
+

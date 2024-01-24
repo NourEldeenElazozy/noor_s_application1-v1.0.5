@@ -7,6 +7,7 @@ dependencies:
   flutter: 
     sdk: flutter
   shared_preferences: ^2.0.15
+  dio: ^4.0.6
   cached_network_image: ^3.2.1
   flutter_svg: ^1.1.6
   carousel_slider: ^4.0.0
