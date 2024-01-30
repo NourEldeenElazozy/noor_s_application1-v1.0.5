@@ -1,3 +1,4 @@
+import 'package:noor_s_application1/controllers/ProductsController.dart';
 import 'package:noor_s_application1/presentation/shopping_bag_bill_one_screen/shopping_bag_bill_one_screen.dart';
 import 'package:noor_s_application1/presentation/shopping_bag_screen/shopping_bag_screen.dart';
 
@@ -19,15 +20,15 @@ import 'package:noor_s_application1/widgets/custom_icon_button.dart';
 import 'package:noor_s_application1/widgets/custom_search_view.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
+import 'package:get/get.dart';
 // ignore_for_file: must_be_immutable
 class MainPageOneScreen extends StatelessWidget {
   MainPageOneScreen({Key? key}) : super(key: key);
-
+  final ProductsController productController = Get.put(ProductsController());
   TextEditingController searchController = TextEditingController();
 
   int sliderIndex = 1;
-
+   bool showResults=false;
   TextEditingController shoppingbagFILLwghtGRADopszController =
       TextEditingController();
 
@@ -50,6 +51,8 @@ class MainPageOneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
@@ -63,13 +66,62 @@ class MainPageOneScreen extends StatelessWidget {
                       child: SingleChildScrollView(
                           child: Padding(
                               padding: EdgeInsets.only(right: 1.h),
-                              child: Column(children: [
+                              child: Column(
+                                  children: [
                                 Padding(
                                     padding: EdgeInsets.only(
                                         left: 41.h, right: 40.h),
-                                    child: CustomSearchView(
+                                    child: Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: CustomSearchView(
+
+                                        onChanged: (value) {
+
+                                          if (value.isNotEmpty) {
+                                            productController.getproduct(searchController.value.text);
+                                          }
+                                        },
                                         controller: searchController,
-                                        hintText: "بحث عن منتج")),
+                                        hintText: 'بحث عن منتج',
+                                      ),
+                                    ),
+                                    ),
+                                    Obx(() {
+                                      if (searchController.value.text.length <= 0) {
+                                        return Container();
+                                      }
+                                      if (productController.products.isEmpty ) {
+
+
+
+                                        return Container(); // Show an empty container when there are no results
+                                      } else {
+                                        return Directionality(
+                                          textDirection: TextDirection.rtl,
+                                          child: Container(
+
+                                            height: 250,
+                                            width: 250,
+                                            child: ListView.builder(
+                                              itemCount: productController.products.length,
+                                              itemBuilder: (context, index) {
+                                                final result = productController.products[index].name;
+                                                return ListTile(
+
+
+                                                  title:  InkWell(
+                                                    child: Text(productController.products[index].name,
+                                                        style: CustomTextStyles
+                                                            .titleMediumBlack90004),
+                                                  ),
+                                                  // Customize the list item as needed
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }),
                                 SizedBox(height: 29.v),
                                 Align(
                                     alignment: Alignment.centerRight,
@@ -116,9 +168,45 @@ class MainPageOneScreen extends StatelessWidget {
                                             style: CustomTextStyles
                                                 .titleSmallErrorContainerBold_1))),
                                 SizedBox(height: 15.v),
-                                _buildShoppingbagFILLwghtGRADopsz5(context),
+                                Obx(() {
+                                  if (productController.isLoading.value) {
+                                    return Center(child: CircularProgressIndicator());
+                                  }else{
+                                    return  Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: SizedBox(
+                                        height: 200,
+
+                                        child: GridView.builder(
+                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisSpacing: 0,
+                                            mainAxisSpacing: 0,
+                                            crossAxisCount: 2, // Adjust number of columns as needed
+                                          ),
+                                          itemCount: productController.products.length,
+                                          itemBuilder: (context, index) {
+
+                                              return  _buildShoppingbagFILLwghtGRADopsz5(context,
+                                                productController.products[index].name,
+
+                                                productController.products[index].mark,
+                                                productController.products[index].price,
+                                                "https://zadstorely.ly/public/assets/images/products/${productController.products[index].product_image}"
+
+                                              );
+
+
+                                          },),
+                                      ),
+                                    );
+                                  }
+
+
+
+                                }),
+
                                 SizedBox(height: 17.v),
-                                _buildShoppingbagFILLwghtGRADopsz8(context),
+
                                 CustomImageView(
                                     imagePath:
                                         ImageConstant.imgRectangle2068x427,
@@ -338,9 +426,9 @@ class MainPageOneScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildShoppingbagFILLwghtGRADopsz5(BuildContext context) {
+  Widget _buildShoppingbagFILLwghtGRADopsz5(BuildContext context,name,mark,  price,img) {
     return Padding(
-        padding: EdgeInsets.only(left: 27.h, right: 24.h),
+        padding: EdgeInsets.only(left: 15.h, right: 15.h),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Expanded(
               child: Container(
@@ -349,43 +437,22 @@ class MainPageOneScreen extends StatelessWidget {
                       .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     _buildFavoriteFILLZero(context,
-                        image: ImageConstant.imgRectangle121),
+                        image: img),
                     SizedBox(height: 4.v),
                     Padding(
                         padding: EdgeInsets.only(right: 5.h),
-                        child: _buildWidget(context, widget: "بني")),
+                        child: _buildWidget(context, widget: name)),
                     SizedBox(height: 5.v),
                     Padding(
                         padding: EdgeInsets.only(left: 9.h, right: 5.h),
                         child: _buildSixHundredFifty(context,
-                            sixHundredFifty: "65.0 د.ل",
-                            nike: "الماركة : Nike")),
+                            sixHundredFifty: "$price د.ل",
+                            nike: "الماركة : $mark")),
                     SizedBox(height: 11.v),
                     _buildShoppingbagFILLwghtGRADopsz3(context),
                     SizedBox(height: 7.v)
                   ]))),
-          Expanded(
-              child: Container(
-                  margin: EdgeInsets.only(left: 15.h),
-                  decoration: AppDecoration.outlineGray
-                      .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    _buildFavoriteFILLZero(context,
-                        image: ImageConstant.imgRectangle122),
-                    SizedBox(height: 4.v),
-                    Padding(
-                        padding: EdgeInsets.only(right: 5.h),
-                        child: _buildWidget(context, widget: "بني")),
-                    SizedBox(height: 5.v),
-                    Padding(
-                        padding: EdgeInsets.only(left: 9.h, right: 5.h),
-                        child: _buildSixHundredFifty(context,
-                            sixHundredFifty: "65.0 د.ل",
-                            nike: "الماركة : Nike")),
-                    SizedBox(height: 11.v),
-                    _buildShoppingbagFILLwghtGRADopsz4(context),
-                    SizedBox(height: 7.v)
-                  ])))
+
         ]));
   }
 

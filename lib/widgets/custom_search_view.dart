@@ -81,6 +81,7 @@ class CustomSearchView extends StatelessWidget {
   Widget get searchViewWidget => SizedBox(
         width: width ?? double.maxFinite,
         child: TextFormField(
+
           controller: controller,
           focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus!,
@@ -92,6 +93,7 @@ class CustomSearchView extends StatelessWidget {
           onChanged: (String value) {
             onChanged!.call(value);
           },
+
         ),
       );
   InputDecoration get decoration => InputDecoration(
@@ -101,10 +103,7 @@ class CustomSearchView extends StatelessWidget {
           padding: EdgeInsets.all(
             15.h,
           ),
-          child: Icon(
-            Icons.search,
-            color: Colors.grey.shade600,
-          ),
+
         ),
         prefixIconConstraints: prefixConstraints ??
             BoxConstraints(

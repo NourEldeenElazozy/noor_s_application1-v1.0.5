@@ -3,6 +3,7 @@ import 'package:noor_s_application1/core/app_export.dart';
 import 'package:noor_s_application1/presentation/register_create_an_account_one_page/register_create_an_account_one_page.dart';
 import 'package:noor_s_application1/presentation/register_log_in_one_page/register_log_in_one_page.dart';
 import 'package:noor_s_application1/presentation/register_log_in_tab_container_screen/register_log_in_tab_container_screen.dart';
+import 'package:noor_s_application1/utils.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 
 class RegisterChooseATypeOfAccountsOneScreen extends StatefulWidget {
@@ -12,10 +13,12 @@ class RegisterChooseATypeOfAccountsOneScreen extends StatefulWidget {
   State<RegisterChooseATypeOfAccountsOneScreen> createState() => _RegisterChooseATypeOfAccountsOneScreenState();
 }
 class _RegisterChooseATypeOfAccountsOneScreenState extends State<RegisterChooseATypeOfAccountsOneScreen> {
-  bool isButtonPressed1 = false;
+
+  bool isButtonPressed1 = true;
   bool isButtonPressed2 = false;
   @override
   Widget build(BuildContext context) {
+    type="client";
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
@@ -58,6 +61,7 @@ class _RegisterChooseATypeOfAccountsOneScreenState extends State<RegisterChooseA
                         child: Container(
                           color:     Colors.red,
                           child: CustomElevatedButton(
+
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -82,6 +86,7 @@ class _RegisterChooseATypeOfAccountsOneScreenState extends State<RegisterChooseA
     return GestureDetector(
         onTap: () {
           setState(() {
+            type="client";
             isButtonPressed1 = !isButtonPressed1;
             isButtonPressed2=false;
           });
@@ -113,6 +118,7 @@ class _RegisterChooseATypeOfAccountsOneScreenState extends State<RegisterChooseA
     return GestureDetector(
         onTap: () {
           setState(() {
+            type="men";
             isButtonPressed2 = !isButtonPressed2;
             isButtonPressed1=false;
           });
