@@ -120,7 +120,9 @@ class RegisterLogInOnePageState extends State<RegisterLogInOnePage>
                       width: 150.h,
                       text: "تسجيل دخول",
                       onPressed: () async {
+
                         if(emailController.value.text=="" || passwordController.value.text=="" ){
+                          //onTaptf(context);
                           ScaffoldMessenger.of(context)
                               .showSnackBar(CustomsnackBar(
                               'يرجي إدخال الخانات المطلوبة',
@@ -151,9 +153,11 @@ class RegisterLogInOnePageState extends State<RegisterLogInOnePage>
                               },
                             if (authController.status == 1)
                               {
+                                Get.to(MainPageOneScreen()),
                                 setState(() {
                                   isLoaded = false;
                                 })
+
                               }
                           });
                         }

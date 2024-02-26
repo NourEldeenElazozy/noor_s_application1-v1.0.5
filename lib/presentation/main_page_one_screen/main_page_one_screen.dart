@@ -1,4 +1,5 @@
 import 'package:noor_s_application1/controllers/ProductsController.dart';
+import 'package:noor_s_application1/presentation/main_page_display_a_product_screen/main_page_display_a_product_screen.dart';
 import 'package:noor_s_application1/presentation/shopping_bag_bill_one_screen/shopping_bag_bill_one_screen.dart';
 import 'package:noor_s_application1/presentation/shopping_bag_screen/shopping_bag_screen.dart';
 
@@ -186,13 +187,23 @@ class MainPageOneScreen extends StatelessWidget {
                                           itemCount: productController.products.length,
                                           itemBuilder: (context, index) {
 
-                                              return  _buildShoppingbagFILLwghtGRADopsz5(context,
-                                                productController.products[index].name,
+                                              return  InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => MainPageDisplayAProductScreen(productId:  productController.products[index].id), // استبدل 123 بقيمة البرامتر الفعلية أو اتركها كـ null إذا كنت لا ترغب في تمريره
+                                                    ),
+                                                  );
+                                                },
+                                                child: _buildShoppingbagFILLwghtGRADopsz5(context,
+                                                  productController.products[index].name,
 
-                                                productController.products[index].mark,
-                                                productController.products[index].price,
-                                                "https://zadstorely.ly/public/assets/images/products/${productController.products[index].product_image}"
+                                                  "s",
+                                                  productController.products[index].price,
+                                                  "https://zadstorely.ly/public/assets/images/products/${productController.products[index].img}"
 
+                                                ),
                                               );
 
 
@@ -565,9 +576,13 @@ class MainPageOneScreen extends StatelessWidget {
               width: 173.h,
               radius: BorderRadius.circular(8.h),
               alignment: Alignment.center,
+           /*
               onTap: () {
                 onTapImage!.call();
-              }),
+              }
+            */
+
+              ),
           Padding(
               padding: EdgeInsets.only(top: 9.v, right: 9.h),
               child: CustomIconButton(
