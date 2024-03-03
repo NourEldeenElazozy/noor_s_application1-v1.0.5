@@ -13,12 +13,12 @@ class oneProduct {
   final String type;
   final List<Color> colors;
   final List<Image> images;
+  final List<Size> sizes;
 
   oneProduct({
     required this.id,
     required this.name,
     required this.section,
-
     required this.video,
     required this.desc,
     required this.mark,
@@ -29,6 +29,7 @@ class oneProduct {
     required this.type,
     required this.colors,
     required this.images,
+    required this.sizes,
   });
 
   factory oneProduct.fromJson(Map<String, dynamic> json) {
@@ -42,11 +43,15 @@ class oneProduct {
       images = List<Image>.from(json['image'].map((image) => Image.fromJson(image)));
     }
 
+    List<Size> sizes = <Size>[];
+    if (json['sizes'] != null) {
+      sizes = List<Size>.from(json['sizes'].map((size) => Size.fromJson(size)));
+    }
+
     return oneProduct(
       id: json['product']['id'],
       name: json['product']['name'],
       section: json['product']['section'],
-
       video: json['product']['video'],
       desc: json['product']['desc'],
       mark: json['product']['mark'],
@@ -57,6 +62,7 @@ class oneProduct {
       type: json['product']['type'],
       colors: colors,
       images: images,
+      sizes: sizes,
     );
   }
 }
@@ -97,6 +103,26 @@ class Image {
       id: json['id'],
       product: json['product'],
       img: json['img'],
+    );
+  }
+}
+
+class Size {
+  final String id;
+  final String product;
+  final String size;
+
+  Size({
+    required this.id,
+    required this.product,
+    required this.size,
+  });
+
+  factory Size.fromJson(Map<String, dynamic> json) {
+    return Size(
+      id: json['id'],
+      product: json['product'],
+      size: json['size'],
     );
   }
 }

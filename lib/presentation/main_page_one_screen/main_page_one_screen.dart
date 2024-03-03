@@ -89,9 +89,10 @@ class MainPageOneScreen extends StatelessWidget {
                                     ),
                                     Obx(() {
                                       if (searchController.value.text.length <= 0) {
+
                                         return Container();
                                       }
-                                      if (productController.products.isEmpty ) {
+                                      if (productController.Searchproducts.isEmpty || searchController.value.text.length <= 0 ) {
 
 
 
@@ -159,7 +160,52 @@ class MainPageOneScreen extends StatelessWidget {
                                             style: CustomTextStyles
                                                 .titleSmallErrorContainerBold_1))),
                                 SizedBox(height: 31.v),
-                                _buildShoppingbagFILLwghtGRADopsz2(context),
+                                    Obx(() {
+                                      if (productController.isLoading.value) {
+                                        return Center(child: CircularProgressIndicator());
+                                      }else{
+                                        return  Directionality(
+                                          textDirection: TextDirection.rtl,
+                                          child: Container(
+                                            height: 200,
+                                            width: double.infinity,
+
+
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.horizontal, // تحديد الاتجاه الأفقي
+                                              itemCount: productController.productstype.length,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => MainPageDisplayAProductScreen(productId: productController.products[index].id), // استبدل 123 بقيمة البرامتر الفعلية أو اتركها كـ null إذا كنت لا ترغب في تمريره
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    width: 220,
+                                                    height: 100,
+
+                                                    child: _buildShoppingbagFILLwghtGRADopsz5(
+                                                        context,
+                                                        productController.products[index].name,
+                                                        "s",
+                                                        productController.products[index].price,
+                                                        "https://zadstorely.ly/public/assets/images/products/${productController.products[index].img}"
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+
+
+                                    }),
                                 SizedBox(height: 45.v),
                                 Align(
                                     alignment: Alignment.centerRight,
@@ -175,39 +221,39 @@ class MainPageOneScreen extends StatelessWidget {
                                   }else{
                                     return  Directionality(
                                       textDirection: TextDirection.rtl,
-                                      child: SizedBox(
+                                      child: Container(
                                         height: 200,
+                                        width: double.infinity,
 
-                                        child: GridView.builder(
-                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisSpacing: 0,
-                                            mainAxisSpacing: 0,
-                                            crossAxisCount: 2, // Adjust number of columns as needed
-                                          ),
+
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal, // تحديد الاتجاه الأفقي
                                           itemCount: productController.products.length,
                                           itemBuilder: (context, index) {
+                                            return InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => MainPageDisplayAProductScreen(productId: productController.products[index].id), // استبدل 123 بقيمة البرامتر الفعلية أو اتركها كـ null إذا كنت لا ترغب في تمريره
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                width: 220,
+                                                height: 100,
 
-                                              return  InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
+                                                child: _buildShoppingbagFILLwghtGRADopsz5(
                                                     context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => MainPageDisplayAProductScreen(productId:  productController.products[index].id), // استبدل 123 بقيمة البرامتر الفعلية أو اتركها كـ null إذا كنت لا ترغب في تمريره
-                                                    ),
-                                                  );
-                                                },
-                                                child: _buildShoppingbagFILLwghtGRADopsz5(context,
-                                                  productController.products[index].name,
-
-                                                  "s",
-                                                  productController.products[index].price,
-                                                  "https://zadstorely.ly/public/assets/images/products/${productController.products[index].img}"
-
+                                                    productController.products[index].name,
+                                                    "s",
+                                                    productController.products[index].price,
+                                                    "https://zadstorely.ly/public/assets/images/products/${productController.products[index].img}"
                                                 ),
-                                              );
-
-
-                                          },),
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ),
                                     );
                                   }
@@ -422,19 +468,7 @@ class MainPageOneScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildShoppingbagFILLwghtGRADopsz4(BuildContext context) {
-    return CustomTextFormField(
-        width: 153.h,
-        controller: shoppingbagFILLwghtGRADopszController3,
-        hintText: "إضافة إلى السلة",
-        prefix: Container(
-            margin: EdgeInsets.fromLTRB(18.h, 2.v, 11.h, 3.v),
-            child: CustomImageView(
-                imagePath: ImageConstant.imgShoppingbagfill0wght400grad0opsz242,
-                height: 21.adaptSize,
-                width: 21.adaptSize)),
-        prefixConstraints: BoxConstraints(maxHeight: 26.v));
-  }
+
 
   /// Section Widget
   Widget _buildShoppingbagFILLwghtGRADopsz5(BuildContext context,name,mark,  price,img) {
@@ -446,7 +480,7 @@ class MainPageOneScreen extends StatelessWidget {
                   margin: EdgeInsets.only(right: 15.h),
                   decoration: AppDecoration.outlineGray
                       .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  child: Column(mainAxisSize: MainAxisSize.max, children: [
                     _buildFavoriteFILLZero(context,
                         image: img),
                     SizedBox(height: 4.v),
@@ -468,87 +502,13 @@ class MainPageOneScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildShoppingbagFILLwghtGRADopsz6(BuildContext context) {
-    return CustomTextFormField(
-        width: 153.h,
-        controller: shoppingbagFILLwghtGRADopszController4,
-        hintText: "إضافة إلى السلة",
-        prefix: Container(
-            margin: EdgeInsets.fromLTRB(18.h, 2.v, 11.h, 3.v),
-            child: CustomImageView(
-                imagePath: ImageConstant.imgShoppingbagfill0wght400grad0opsz242,
-                height: 21.adaptSize,
-                width: 21.adaptSize)),
-        prefixConstraints: BoxConstraints(maxHeight: 26.v));
-  }
+
 
   /// Section Widget
-  Widget _buildShoppingbagFILLwghtGRADopsz7(BuildContext context) {
-    return CustomTextFormField(
-        width: 153.h,
-        controller: shoppingbagFILLwghtGRADopszController5,
-        hintText: "إضافة إلى السلة",
-        textInputAction: TextInputAction.done,
-        prefix: Container(
-            margin: EdgeInsets.fromLTRB(18.h, 2.v, 11.h, 3.v),
-            child: CustomImageView(
-                imagePath: ImageConstant.imgShoppingbagfill0wght400grad0opsz242,
-                height: 21.adaptSize,
-                width: 21.adaptSize)),
-        prefixConstraints: BoxConstraints(maxHeight: 26.v));
-  }
+
 
   /// Section Widget
-  Widget _buildShoppingbagFILLwghtGRADopsz8(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.h),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Expanded(
-              child: Container(
-                  margin: EdgeInsets.only(right: 15.h),
-                  decoration: AppDecoration.outlineGray
-                      .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    _buildFavoriteFILLZero(context,
-                        image: ImageConstant.imgRectangle123),
-                    SizedBox(height: 4.v),
-                    Padding(
-                        padding: EdgeInsets.only(right: 5.h),
-                        child: _buildWidget(context, widget: "بني")),
-                    SizedBox(height: 5.v),
-                    Padding(
-                        padding: EdgeInsets.only(left: 9.h, right: 5.h),
-                        child: _buildSixHundredFifty(context,
-                            sixHundredFifty: "65.0 د.ل",
-                            nike: "الماركة : Nike")),
-                    SizedBox(height: 11.v),
-                    _buildShoppingbagFILLwghtGRADopsz6(context),
-                    SizedBox(height: 7.v)
-                  ]))),
-          Expanded(
-              child: Container(
-                  margin: EdgeInsets.only(left: 15.h),
-                  decoration: AppDecoration.outlineGray
-                      .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    _buildFavoriteFILLZero(context,
-                        image: ImageConstant.imgRectangle124),
-                    SizedBox(height: 4.v),
-                    Padding(
-                        padding: EdgeInsets.only(right: 5.h),
-                        child: _buildWidget(context, widget: "بني")),
-                    SizedBox(height: 5.v),
-                    Padding(
-                        padding: EdgeInsets.only(left: 9.h, right: 5.h),
-                        child: _buildSixHundredFifty(context,
-                            sixHundredFifty: "65.0 د.ل",
-                            nike: "الماركة : Nike")),
-                    SizedBox(height: 11.v),
-                    _buildShoppingbagFILLwghtGRADopsz7(context),
-                    SizedBox(height: 7.v)
-                  ])))
-        ]));
-  }
+
 
   /// Section Widget
   Widget _buildBottomBar(BuildContext context) {
@@ -573,8 +533,9 @@ class MainPageOneScreen extends StatelessWidget {
           CustomImageView(
               imagePath: image,
               height: 167.v,
-              width: 173.h,
+              width: 500.h,
               radius: BorderRadius.circular(8.h),
+              fit:BoxFit.cover ,
               alignment: Alignment.center,
            /*
               onTap: () {

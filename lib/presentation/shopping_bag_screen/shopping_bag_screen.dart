@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noor_s_application1/controllers/ProductsController.dart';
 import 'package:noor_s_application1/core/app_export.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_leading_image.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_subtitle_five.dart';
@@ -9,11 +10,11 @@ import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
 import 'package:noor_s_application1/presentation/shopping_bag_delete_all_products_dialog/shopping_bag_delete_all_products_dialog.dart';
 import 'package:noor_s_application1/presentation/shopping_bag_delete_one_product_dialog/shopping_bag_delete_one_product_dialog.dart';
-
+import 'package:get/get.dart';
 // ignore_for_file: must_be_immutable
 class ShoppingBagScreen extends StatelessWidget {
   ShoppingBagScreen({Key? key}) : super(key: key);
-
+  final ProductsController productController = Get.put(ProductsController());
   TextEditingController shoppingbagFILLwghtGRADopszController =
       TextEditingController();
 
@@ -22,6 +23,8 @@ class ShoppingBagScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("cartProductList");
+    print(productController.cartProductList.length);
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
@@ -44,9 +47,35 @@ class ShoppingBagScreen extends StatelessWidget {
                                   style:
                                       CustomTextStyles.bodyMediumGray70001))),
                       SizedBox(height: 18.v),
-                      _buildTf1(context),
+                      Container(
 
-                     _buildNine(context),
+                        width: double.infinity,
+                        height: 350,
+                        child: Obx(() {
+                          return ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: productController.cartProductList.length,
+                            itemBuilder: (context, index) {
+                              final product = productController.cartProductList[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: _buildTf1(
+                                  context,
+                                  product['name'],
+                                  product['image'],
+                                  product['quantity'],
+                                  product['price'],
+                                  product['id'],
+                                ),
+                              );
+                            },
+                          );
+                        }),
+                      ),
+
+                     Container(
+
+                         child: _buildNine(context)),
 
 
                     ])))));
@@ -112,7 +141,7 @@ class ShoppingBagScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildTf(BuildContext context) {
+  Widget _buildTf(BuildContext context,int id) {
     return CustomElevatedButton(
         height: 28.v,
         width: 118.h,
@@ -127,45 +156,60 @@ class ShoppingBagScreen extends StatelessWidget {
         buttonStyle: CustomButtonStyles.fillGrayTL4,
         buttonTextStyle: CustomTextStyles.labelLargePrimary13,
         onPressed: () {
-          onTaptf(context);
+          productController.deleteProduct(id);
+
         });
   }
 
   /// Section Widget
-  Widget _buildTf1(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 21.h),
-          padding: EdgeInsets.all(11.h),
-          decoration: AppDecoration.outlineGray300
-              .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildTf(context),
-                Padding(
-                    padding: EdgeInsets.only(left: 2.h, top: 6.v, bottom: 34.v),
-                    child: Column(children: [
-                      Text("حذاء رياضي طبي",
-                          style: CustomTextStyles.titleSmallErrorContainer15),
-                      SizedBox(height: 12.v),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: Text("65  د.ل",
-                              style:
-                                  CustomTextStyles.titleMediumPrimaryExtraBold))
-                    ])),
-                CustomImageView(
-                    imagePath: ImageConstant.imgRectangle68,
-                    height: 97.v,
-                    width: 115.h,
+  Widget _buildTf1(BuildContext context,String name , String image,int quantity,double price,int id) {
+
+
+    return Container(
+
+        margin: EdgeInsets.symmetric(horizontal: 21.h),
+        padding: EdgeInsets.all(11.h),
+        decoration: AppDecoration.outlineGray300
+            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                      onTap: () {
+
+                        productController.deleteProduct(id);
+                      },
+                      child: _buildTf(context,id)),
+
+                ],
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 2.h, top: 6.v, bottom: 34.v),
+                  child: Column(children: [
+                    Text(name,
+                        style: CustomTextStyles.titleSmallErrorContainer15),
+                    SizedBox(height: 12.v),
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(price.toString(),
+                            style:
+                                CustomTextStyles.titleMediumPrimaryExtraBold))
+                  ])),
+              Container(
+                height: 110.v,
+                width: 120.h,
+                child: CustomImageView(
+                    imagePath: image,
+                    height: 100.v,
+                    width: 100.h,
                     radius: BorderRadius.circular(4.h),
-                    margin: EdgeInsets.only(left: 16.h, right: 2.h))
-              ])),
-    );
+                    margin: EdgeInsets.only(left: 16.h, right: 2.h)),
+              )
+            ]));
   }
 
   /// Section Widget
@@ -194,26 +238,16 @@ class ShoppingBagScreen extends StatelessWidget {
    return Align(
     alignment: Alignment.bottomCenter,
     child: Padding(
-      padding: const EdgeInsets.only(top: 250),
+      padding: const EdgeInsets.only(top: 50),
       child: Container(
        width: 400.h,
        padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.v),
-       decoration: AppDecoration.outlineErrorContainer2.copyWith(
-        borderRadius: BorderRadius.all(Radius.circular(7)),
-       ),
+
        child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-         Align(
-          alignment: Alignment.center,
-          child: SizedBox(
-           width: 55.h,
-           child: Divider(
-            color: theme.colorScheme.errorContainer.withOpacity(1),
-           ),
-          ),
-         ),
+
          SizedBox(height: 15.v),
          Padding(
           padding: EdgeInsets.only(right: 25.h),
@@ -467,6 +501,6 @@ class ShoppingBagScreen extends StatelessWidget {
 
   /// Navigates to the shoppingBagPaymentTypeOneScreen when the action is triggered.
   onTaptf2(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.shoppingBagPaymentTypeOneScreen);
+    Navigator.pushNamed(context, AppRoutes.shoppingBagPaymentTypeScreen);
   }
 }

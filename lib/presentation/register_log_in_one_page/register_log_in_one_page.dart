@@ -28,15 +28,18 @@ class RegisterLogInOnePageState extends State<RegisterLogInOnePage>
   Widget build(BuildContext context) {
      isLoaded = false;
     mediaQueryData = MediaQuery.of(context);
-    return SafeArea(
-        child: Scaffold(
-            body: SingleChildScrollView(
-              child: Container(
-                  width: double.maxFinite,
-                  decoration: AppDecoration.fillGray,
-                  child: Column(
-                      children: [SizedBox(height: 49.v), _buildTf(context)])),
-            )));
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: SafeArea(
+          child: Scaffold(
+              body: SingleChildScrollView(
+                child: Container(
+                    width: double.maxFinite,
+                    decoration: AppDecoration.fillGray,
+                    child: Column(
+                        children: [SizedBox(height: 49.v), _buildTf(context)])),
+              ))),
+    );
   }
 
   /// Section Widget
@@ -217,21 +220,6 @@ class RegisterLogInOnePageState extends State<RegisterLogInOnePage>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isPasswordVisible = !isPasswordVisible;
-                    });
-                  },
-                  child: Icon(
-                    isPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    size: 24,
-                    color: Colors.black,
-                    // يمكنك إضافة حجم وهامش إضافي حسب الحاجة
-                  ),
-                ),
                 Expanded(
                   child: TextField(
                     controller: passwordController,
@@ -242,12 +230,23 @@ class RegisterLogInOnePageState extends State<RegisterLogInOnePage>
                         fontSize: 12,
                         color: Colors.grey,
                       ),
-                      hintTextDirection: TextDirection.rtl,
                     ),
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.red,
+                      color: Colors.black,
                     ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isPasswordVisible = !isPasswordVisible;
+                    });
+                  },
+                  child: Icon(
+                    isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    size: 24,
+                    color: Colors.black,
                   ),
                 ),
               ],

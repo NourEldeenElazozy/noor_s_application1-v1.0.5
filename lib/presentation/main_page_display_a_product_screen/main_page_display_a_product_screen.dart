@@ -67,21 +67,9 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                                                             crossAxisAlignment:
                                                             CrossAxisAlignment.end,
                                                             children: [
-                                                              _buildAppBar(context),
+                                                              _buildAppBar(context,int.parse(productController.OneProduct.first.id),productController.OneProduct.first.name,double.parse(productController.OneProduct.first.price),"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}"),
                                                               SizedBox(height: 16.v),
-                                                              CustomIconButton(
-                                                                  height: 46.adaptSize,
-                                                                  width: 46.adaptSize,
-                                                                  padding:
-                                                                  EdgeInsets.all(
-                                                                      3.h),
-                                                                  decoration:
-                                                                  IconButtonStyleHelper
-                                                                      .fillWhiteATL22,
-                                                                  child: CustomImageView(
-                                                                      imagePath:
-                                                                      ImageConstant
-                                                                          .imgPlayCircleFil)),
+
                                                               SizedBox(height: 355.v),
                                                               CustomElevatedButton(
                                                                   height: 41.v,
@@ -110,7 +98,7 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
 
 
   /// Section Widget
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(BuildContext context,id,name,price,image) {
     return CustomAppBar(
         height: 45.v,
         leadingWidth: 67.h,
@@ -125,7 +113,7 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
               imagePath: ImageConstant.imgFavoriteFill0,
               margin: EdgeInsets.symmetric(horizontal: 21.h),
               onTap: () {
-                onTapFavoriteFILLZero(context);
+                productController.addfavProduct(id:id,name: name,image: image,price:price  );
               })
         ]);
   }
@@ -144,26 +132,74 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                   child: Divider(
                       color: theme.colorScheme.errorContainer.withOpacity(1))),
               SizedBox(height: 26.v),
-              Padding(
-                  padding: EdgeInsets.only(left: 32.h, right: 16.h),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.only(top: 3.v, bottom: 5.v),
-                            child: Text(" أسود",
-                                style: theme.textTheme.titleMedium)),
-                        CustomImageView(
-                            imagePath: ImageConstant.imgPaletteFill1W,
-                            height: 14.adaptSize,
-                            width: 14.adaptSize,
-                            margin: EdgeInsets.only(
-                                left: 9.h, top: 9.v, bottom: 11.v)),
-                        Spacer(),
-                        Text(productController.OneProduct.first.name,
-                            style: CustomTextStyles.titleLargePrimary22)
-                      ])),
+            Padding(
+              padding: EdgeInsets.only(top: 3.v, bottom: 5.v),
+              child: Container(
+                width: 200.h,
+                height: 60.v,
+                child: ListView.builder(
+
+                  scrollDirection: Axis.horizontal,
+                  itemCount: productController.OneProduct.first.colors.length,
+                  itemBuilder: (context, index) {
+                    final color = productController.OneProduct.first.colors[index].color;
+                    return Obx(
+                          () => InkWell(
+                        onTap: () {
+                          productController.setSelectedColor(color);
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          margin: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(int.parse(color.replaceAll("#", "0xFF"))),
+                          ),
+                          child: productController.selectedColor.value == color
+                              ? Icon(
+                            Icons.check,
+                            color: Colors.white,
+                          )
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 3.v, bottom: 5.v),
+              child: Container(
+                width: 200.h,
+                height: 60.v,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: productController.OneProduct.first.sizes.length,
+                  itemBuilder: (context, index) {
+                    final size = productController.OneProduct.first.sizes[index].size;
+                    return Obx(() => InkWell(
+                      onTap: () {
+                        productController.setSelectedSize(size);
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: productController.selectedSize.value == size ? Colors.deepOrange : Colors.grey,
+                        ),
+                        child:Center(child: Text( productController.OneProduct.first.sizes[index].size,
+                        style: TextStyle(color: Colors.white),))
+
+                      ),
+                    ));
+                  },
+                ),
+              ),
+            ),
               SizedBox(height: 32.v),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 6.h),
@@ -216,31 +252,67 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                           textAlign: TextAlign.right,
                           style: CustomTextStyles.bodyMedium13_1
                               .copyWith(height: 1.38)))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  IconButton(
+                    icon: Icon(Icons.remove),
+                    color: Colors.orange,
+                    onPressed: productController.decrementNumber,
+                  ),
+                  SizedBox(width: 10),
+                  Obx(() => Text(
+                    productController.number.value.toString(),
+                    style: TextStyle(fontSize: 20),
+                  )),
+                  SizedBox(width: 10),
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    color: Colors.orange,
+                    onPressed: productController.incrementNumber,
+                  ),
+                ],
+              ),
               SizedBox(height: 14.v),
               GestureDetector(
                   onTap: () {
-                    onTapAddProductTo(context);
+
+                    //onTapAddProductTo(context);
                   },
-                  child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 21.h),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 87.h, vertical: 11.v),
-                      decoration: AppDecoration.fillPrimary.copyWith(
-                          borderRadius: BorderRadiusStyle.roundedBorder5),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomImageView(
-                                imagePath: ImageConstant.imgVectorWhiteA700,
-                                height: 17.v,
-                                width: 14.h,
-                                margin: EdgeInsets.symmetric(vertical: 2.v)),
-                            Padding(
-                                padding: EdgeInsets.only(top: 2.v, right: 19.h),
-                                child: Text("إضافة إلى السلة",
-                                    style: CustomTextStyles
-                                        .titleMediumWhiteA70017))
-                          ]))),
+                  child: InkWell(
+                    onTap: () {
+
+                      productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: 1, price: double.parse(productController.OneProduct.first.price));
+                    },
+                    child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 21.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 87.h, vertical: 11.v),
+                        decoration: AppDecoration.fillPrimary.copyWith(
+                            borderRadius: BorderRadiusStyle.roundedBorder5),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomImageView(
+                                  imagePath: ImageConstant.imgVectorWhiteA700,
+                                  height: 17.v,
+                                  width: 14.h,
+                                  margin: EdgeInsets.symmetric(vertical: 2.v)),
+                              InkWell(
+                                onTap: () {
+
+
+                                // productController.addtocart(int.parse(productController.OneProduct.first.id), productController.number.toInt());
+                                },
+                                child: Padding(
+                                    padding: EdgeInsets.only(top: 2.v, right: 19.h),
+                                    child: Text("إضافة إلى السلة",
+                                        style: CustomTextStyles
+                                            .titleMediumWhiteA70017)),
+                              )
+                            ])),
+                  )),
               SizedBox(height: 8.v)
             ])));
   }

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:noor_s_application1/controllers/ProductsController.dart';
 import 'package:noor_s_application1/controllers/SectionsController.dart';
+import 'package:noor_s_application1/presentation/main_page_display_a_product_screen/main_page_display_a_product_screen.dart';
 
 import '../sections_page/widgets/framenine_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,7 @@ import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
 class SectionsPage extends StatelessWidget {
   final sectionsController = Get.put(SectionsController());
   SectionsPage({Key? key}) : super(key: key);
-
+  final ProductsController productController = Get.put(ProductsController());
   TextEditingController shoppingbagFILLwghtGRADopszController =
       TextEditingController();
 
@@ -94,7 +96,12 @@ class SectionsPage extends StatelessWidget {
                                     },
                                     itemCount: sectionsController.products.length,
                                     itemBuilder: (context, index) {
-                                      return FramenineItemWidget(sectionsController.products[index].name);
+                                      return InkWell(
+                                          onTap: () {
+                                            print(sectionsController.products[index].id);
+                                            productController.getproductsSection(int.parse(sectionsController.products[index].id));
+                                          },
+                                          child: FramenineItemWidget(sectionsController.products[index].name));
                                     },
                                   ),
                                 );
@@ -108,11 +115,54 @@ class SectionsPage extends StatelessWidget {
                                           style: CustomTextStyles
                                               .titleSmallErrorContainerBold_1))),
                               SizedBox(height: 22.v),
-                              _buildShoppingbagFILLwghtGRADopsz2(context),
-                              SizedBox(height: 25.v),
-                              _buildShoppingbagFILLwghtGRADopsz5(context),
-                              SizedBox(height: 308.v),
-                              _buildShoppingbagFILLwghtGRADopsz8(context)
+                              Obx(() {
+                                if (productController.isLoading.value) {
+                                  return Center(child: CircularProgressIndicator());
+                                }else{
+                                  return  Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Container(
+                                      height: 200,
+                                      width: double.infinity,
+
+
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal, // تحديد الاتجاه الأفقي
+                                        itemCount: productController.productstype.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => MainPageDisplayAProductScreen(productId: productController.products[index].id), // استبدل 123 بقيمة البرامتر الفعلية أو اتركها كـ null إذا كنت لا ترغب في تمريره
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 220,
+                                              height: 100,
+
+                                              child: _buildShoppingbagFILLwghtGRADopsz5(
+                                                  context,
+                                                  productController.productsSection[index].name,
+                                                  "s",
+                                                  productController.productsSection[index].price,
+                                                  "https://zadstorely.ly/public/assets/images/products/${productController.productsSection[index].img}"
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+
+
+                              }),
+
+
                             ]))))));
   }
 
@@ -284,54 +334,33 @@ class SectionsPage extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildShoppingbagFILLwghtGRADopsz5(BuildContext context) {
+  Widget _buildShoppingbagFILLwghtGRADopsz5(BuildContext context,name,mark,  price,img) {
     return Padding(
-        padding: EdgeInsets.only(left: 3.h, right: 24.h),
+        padding: EdgeInsets.only(left: 15.h, right: 15.h),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Expanded(
               child: Container(
                   margin: EdgeInsets.only(right: 15.h),
                   decoration: AppDecoration.outlineGray
                       .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  child: Column(mainAxisSize: MainAxisSize.max, children: [
                     _buildFavoriteFILLZero(context,
-                        image: ImageConstant.imgRectangle121),
+                        image: img),
                     SizedBox(height: 4.v),
                     Padding(
                         padding: EdgeInsets.only(right: 5.h),
-                        child: _buildWidget(context, widget: "بني")),
-                    SizedBox(height: 6.v),
+                        child: _buildWidget(context, widget: name)),
+                    SizedBox(height: 5.v),
                     Padding(
                         padding: EdgeInsets.only(left: 9.h, right: 5.h),
                         child: _buildSixHundredFifty(context,
-                            sixHundredFifty: "65.0 د.ل",
-                            nike: "الماركة : Nike")),
-                    SizedBox(height: 9.v),
+                            sixHundredFifty: "$price د.ل",
+                            nike: "الماركة : $mark")),
+                    SizedBox(height: 11.v),
                     _buildShoppingbagFILLwghtGRADopsz3(context),
                     SizedBox(height: 7.v)
                   ]))),
-          Expanded(
-              child: Container(
-                  margin: EdgeInsets.only(left: 15.h),
-                  decoration: AppDecoration.outlineGray
-                      .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    _buildFavoriteFILLZero(context,
-                        image: ImageConstant.imgRectangle122),
-                    SizedBox(height: 4.v),
-                    Padding(
-                        padding: EdgeInsets.only(right: 5.h),
-                        child: _buildWidget(context, widget: "بني")),
-                    SizedBox(height: 6.v),
-                    Padding(
-                        padding: EdgeInsets.only(left: 9.h, right: 5.h),
-                        child: _buildSixHundredFifty(context,
-                            sixHundredFifty: "65.0 د.ل",
-                            nike: "الماركة : Nike")),
-                    SizedBox(height: 9.v),
-                    _buildShoppingbagFILLwghtGRADopsz4(context),
-                    SizedBox(height: 7.v)
-                  ])))
+
         ]));
   }
 
