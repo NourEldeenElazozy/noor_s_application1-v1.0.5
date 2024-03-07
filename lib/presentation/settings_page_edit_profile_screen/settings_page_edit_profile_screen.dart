@@ -61,7 +61,7 @@ class _SettingsPageEditProfileScreenState extends State<SettingsPageEditProfileS
                                       children: [
                                         CustomImageView(
                                             imagePath:
-                                                ImageConstant.imgEllipse3,
+                                                ImageConstant.imgZadStore101,
                                             height: 106.adaptSize,
                                             width: 106.adaptSize,
                                             radius: BorderRadius.circular(53.h),

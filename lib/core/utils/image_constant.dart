@@ -49,7 +49,7 @@ class ImageConstant {
   static String imgVector18x20 = '$imagePath/img_vector_18x20.svg';
 
   // #5- settings-page-edit profile images
-  static String imgEllipse3 = '$imagePath/img_ellipse_3.png';
+  static String imgEllipse3 = '$imagePath/img_zad_store_10_1.png';
 
   // #5- settings-page-send a report-active images
   static String imgVectorErrorcontainer7x9 =
