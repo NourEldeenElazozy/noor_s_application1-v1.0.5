@@ -59,7 +59,7 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
 
 
 
-                  _buildTextInputAndLabel1(context),
+
                   SizedBox(height: 37.v),
 
                   CustomElevatedButton(
@@ -163,27 +163,7 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
 
 
   /// Section Widget
-  Widget _buildTextInputAndLabel1(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 32.h),
-        child: Column(children: [
-          Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                  padding: EdgeInsets.only(right: 17.h),
-                  child: Text("عنوان الشارع",
-                      style: CustomTextStyles.bodySmallErrorContainer))),
-          SizedBox(height: 13.v),
-          Container(
-              height: 45.v,
-              width: 364.h,
-              decoration: BoxDecoration(
-                  color: appTheme.whiteA700,
-                  borderRadius: BorderRadius.circular(8.h),
-                  border:
-                      Border.all(color: appTheme.blueGray10004, width: 1.h)))
-        ]));
-  }
+
 
   /// Section Widget
 

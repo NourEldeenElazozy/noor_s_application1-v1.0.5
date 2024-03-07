@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:noor_s_application1/controllers/AuthController.dart';
 import 'package:noor_s_application1/core/app_export.dart';
+import 'package:noor_s_application1/models/Cities.dart';
 import 'package:noor_s_application1/presentation/main_page_one_screen/main_page_one_screen.dart';
 import 'package:noor_s_application1/presentation/register_log_in_one_page/register_log_in_one_page.dart';
 import 'package:noor_s_application1/widgets/custom_checkbox_button.dart';
 import 'package:noor_s_application1/widgets/custom_drop_down.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 import 'package:get/get.dart';
+
 class RegisterCreateAnAccountOnePage extends StatefulWidget {
   const RegisterCreateAnAccountOnePage({Key? key}) : super(key: key);
 
@@ -15,6 +17,7 @@ class RegisterCreateAnAccountOnePage extends StatefulWidget {
   RegisterCreateAnAccountOnePageState createState() =>
       RegisterCreateAnAccountOnePageState();
 }
+
 bool isPasswordVisible = false;
 bool isChecked = false;
 TextEditingController nameController = TextEditingController();
@@ -22,6 +25,7 @@ TextEditingController phoneNumberController = TextEditingController();
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 TextEditingController addressController = TextEditingController();
+String cityname="";
 // ignore_for_file: must_be_immutable
 class RegisterCreateAnAccountOnePageState
     extends State<RegisterCreateAnAccountOnePage>
@@ -35,8 +39,8 @@ class RegisterCreateAnAccountOnePageState
   bool isLoaded = false;
   @override
   final AuthController authController = Get.put(AuthController());
+  final AuthController cityController = Get.put(AuthController());
   Widget build(BuildContext context) {
-
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
@@ -48,46 +52,97 @@ class RegisterCreateAnAccountOnePageState
                   SizedBox(
                       height: 557.v,
                       width: double.maxFinite,
-                      child:
-                      SingleChildScrollView(
-                            child: Column(
-                             children: [
-                        Align(
+                      child: SingleChildScrollView(
+                        child: Column(children: [
+                          Align(
                               alignment: Alignment.center,
                               child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 37.h),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 37.h),
                                   child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        _buildTextInputAndLabel(context,nameController,"ادخل اسمك بالكامل","الأسم"),
+                                        _buildTextInputAndLabel(
+                                            context,
+                                            nameController,
+                                            "ادخل اسمك بالكامل",
+                                            "الأسم"),
                                         SizedBox(height: 31.v),
-                                        _buildTextInputAndLabel(context,emailController,"ادخل الإيميل الإلكتروني","البريد الإلكتروني"),
+                                        _buildTextInputAndLabel(
+                                            context,
+                                            emailController,
+                                            "ادخل الإيميل الإلكتروني",
+                                            "البريد الإلكتروني"),
                                         SizedBox(height: 29.v),
                                         _buildTextInputAndLabel3(context),
                                         SizedBox(height: 31.v),
-                                        _buildTextInputAndLabel(context,phoneNumberController,"ادخل رقم الهاتف","رقم الهاتف"),
+                                        _buildTextInputAndLabel(
+                                            context,
+                                            phoneNumberController,
+                                            "ادخل رقم الهاتف",
+                                            "رقم الهاتف"),
                                         SizedBox(height: 29.v),
-                                        CustomDropDown(
-                                            icon: Container(
-                                                margin: EdgeInsets.fromLTRB(
-                                                    21.h, 11.v, 14.h, 10.v),
-                                                child: CustomImageView(
-                                                    imagePath: ImageConstant
-                                                        .imgArrowdown,
-                                                    height: 24.adaptSize,
-                                                    width: 24.adaptSize)),
-                                            hintText: "بنغازي",
-                                            items: dropdownItemList,
-                                            onChanged: (value) {
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              child: GetBuilder<AuthController>(
+                                                builder: (controller) {
+                                                  if (controller.isLoading ==
+                                                      true) {
+                                                    return Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        child:
+                                                            CircularProgressIndicator()); // عرض علامة التحميل
+                                                  } else {
+                                                    return Container(
 
-                                              addressController.text=value.toString();
-                                              print( addressController.text);
-                                            }),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+
+                                                          DropdownButton<City>(
+                                                            value: authController
+                                                                    .selectedCity ??
+                                                                null,
+                                                            items: controller.cities
+                                                                .map((City city) {
+                                                              return DropdownMenuItem<
+
+                                                                  City>(
+                                                                value: city,
+                                                                child:
+                                                                    Text(city.name),
+
+                                                              );
+                                                            }).toList(),
+                                                            onChanged:
+
+                                                                (City? selectedCity) {
+                                                                  cityname=  selectedCity!.name;
+                                                              authController
+                                                                  .setSelectedCity(
+                                                                      selectedCity);
+                                                            },
+                                                          ),
+                                                          SizedBox(width: 50,),
+                                                          Text("اختار المدينة"),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                              ),
+
+                                            ),
+                                          ],
+                                        ),
                                         SizedBox(height: 29.v),
+                                        _buildTf2(context),
 
-                                         _buildTf2(context),
-
-                                      /*
+                                        /*
                                         Align(
                                             alignment: Alignment.centerRight,
                                             child: Padding(
@@ -134,18 +189,15 @@ class RegisterCreateAnAccountOnePageState
                                                               left: 8.h))
                                                     ])))
                                        */
-
                                       ]))),
-
-                      ]),
-                          ))
+                        ]),
+                      ))
                 ])))));
   }
 
   /// Section Widget
   Widget _buildTextInputAndLabel3(BuildContext context) {
-    return
-     Column(
+    return Column(
       children: [
         Align(
           alignment: Alignment.centerRight,
@@ -155,7 +207,6 @@ class RegisterCreateAnAccountOnePageState
               "ادخل الرمز السري",
               style: TextStyle(
                 fontSize: 14,
-
                 color: Colors.black,
               ),
             ),
@@ -180,9 +231,7 @@ class RegisterCreateAnAccountOnePageState
                   });
                 },
                 child: Icon(
-                  isPasswordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off,
+                  isPasswordVisible ? Icons.visibility : Icons.visibility_off,
                   size: 24,
                   color: Colors.black,
                   // يمكنك إضافة حجم وهامش إضافي حسب الحاجة
@@ -220,7 +269,6 @@ class RegisterCreateAnAccountOnePageState
         child: Padding(
             padding: EdgeInsets.only(right: 18.h),
             child: CustomCheckboxButton(
-
                 alignment: Alignment.centerRight,
                 width: 179.h,
                 text: "الموافقة على سياسات التطبيق",
@@ -231,7 +279,6 @@ class RegisterCreateAnAccountOnePageState
                   setState(() {
                     tf = value;
                   });
-
                 })));
   }
 
@@ -241,7 +288,6 @@ class RegisterCreateAnAccountOnePageState
         alignment: Alignment.bottomCenter,
         child: Container(
             width: double.maxFinite,
-
             padding: EdgeInsets.symmetric(horizontal: 36.h, vertical: 32.v),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -260,78 +306,78 @@ class RegisterCreateAnAccountOnePageState
                   Container(
                     child: !isLoaded
                         ? CustomElevatedButton(
-                        width: 150.h,
-                        text: "إنشاء حساب",
-                        onPressed: () async {
-
-                          if(nameController.value.text=="" || passwordController.value.text==""
-                              || emailController.value.text=="" || phoneNumberController.value.text==""||  addressController.value.text==""
-                          ){
-
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(CustomsnackBar(
-                                'يرجي إدخال الخانات المطلوبة',
-                                'موافق',
-                                Colors.red));
-                            setState(() {
-                              isLoaded = false;
-                            });
-                          }else{
-                            setState(() {
-                              isLoaded = true;
-                            });
-                            await authController
-                                .register(
-                               nameController.text,phoneNumberController.text,
-                                addressController.text,
-                                emailController.text, passwordController.text,"")
-                                .then((value) async => {
-
-                              if (authController.status == 0)
-                                {
-                                  print("sssss3"),
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(CustomsnackBar(
-                                      'خطاء في اسم المستخدم او كلمة المرور',
-                                      'موافق',
-                                      Colors.red)),
-                                  setState(() {
-                                    isLoaded = false;
-                                  }),
-                                },
-                              if (authController.status == 1)
-                                {
-                                  print("sssss"),
-                                  Get.to(MainPageOneScreen()),
-                                  setState(() {
-                                    isLoaded = false;
-                                  }),
-                                  print("sssss2"),
-
-                                }
-                            });
-                          }
-
-                        })
+                            width: 150.h,
+                            text: "إنشاء حساب",
+                            onPressed: () async {
+                              if (nameController.value.text == "" ||
+                                  passwordController.value.text == "" ||
+                                  emailController.value.text == "" ||
+                                  phoneNumberController.value.text == "" ||
+                                 cityname == "") {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    CustomsnackBar(
+                                        'يرجي إدخال الخانات المطلوبة',
+                                        'موافق',
+                                        Colors.red));
+                                setState(() {
+                                  isLoaded = false;
+                                });
+                              } else {
+                                setState(() {
+                                  isLoaded = true;
+                                });
+                                await authController
+                                    .register(
+                                        nameController.text,
+                                        phoneNumberController.text,
+                                    cityname,
+                                        emailController.text,
+                                        passwordController.text,
+                                        "")
+                                    .then((value) async => {
+                                          if (authController.status == 0)
+                                            {
+                                              print("sssss3"),
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(CustomsnackBar(
+                                                      'خطاء في اسم المستخدم او كلمة المرور',
+                                                      'موافق',
+                                                      Colors.red)),
+                                              setState(() {
+                                                isLoaded = false;
+                                              }),
+                                            },
+                                          if (authController.status == 1)
+                                            {
+                                              print("sssss"),
+                                              Get.to(MainPageOneScreen()),
+                                              setState(() {
+                                                isLoaded = false;
+                                              }),
+                                              print("sssss2"),
+                                            }
+                                        });
+                              }
+                            })
                         : Center(
-                      child: LoadingAnimationWidget.discreteCircle(
-                        thirdRingColor: Colors.orange.shade100,
-                        secondRingColor: Colors.orange.shade500,
-                        color: Colors.orange,
-                        size: 20,
-                      ),
-                    ),
+                            child: LoadingAnimationWidget.discreteCircle(
+                              thirdRingColor: Colors.orange.shade100,
+                              secondRingColor: Colors.orange.shade500,
+                              color: Colors.orange,
+                              size: 20,
+                            ),
+                          ),
                   )
                 ])));
   }
 
   /// Common widget
   Widget _buildTextInputAndLabel(
-      BuildContext context,
-      TextEditingController controller,
-      String hintText,
-      String labelText,
-      ) {
+    BuildContext context,
+    TextEditingController controller,
+    String hintText,
+    String labelText,
+  ) {
     return Column(children: [
       Align(
           alignment: Alignment.centerRight,
@@ -347,16 +393,15 @@ class RegisterCreateAnAccountOnePageState
               .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
           child: TextField(
             controller: controller,
-    decoration: InputDecoration.collapsed(
-    hintText: hintText,
-    hintStyle: TextStyle(
-    fontSize: 10,
-    color: Colors.grey,
-    ),
-      hintTextDirection: TextDirection.rtl,
-    ),)
-
-      )
+            decoration: InputDecoration.collapsed(
+              hintText: hintText,
+              hintStyle: TextStyle(
+                fontSize: 10,
+                color: Colors.grey,
+              ),
+              hintTextDirection: TextDirection.rtl,
+            ),
+          ))
     ]);
   }
 

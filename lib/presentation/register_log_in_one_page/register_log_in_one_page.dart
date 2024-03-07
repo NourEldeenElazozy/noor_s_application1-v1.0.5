@@ -66,6 +66,7 @@ class RegisterLogInOnePageState extends State<RegisterLogInOnePage>
           SizedBox(height: 32.v),
 
           SizedBox(height: 16.v),
+      /*
           Align(
               alignment: Alignment.centerRight,
               child: GestureDetector(
@@ -77,6 +78,7 @@ class RegisterLogInOnePageState extends State<RegisterLogInOnePage>
                       child: Text("نسيت الرمز السري؟",
                           style: CustomTextStyles.bodySmallPrimary.copyWith(
                               decoration: TextDecoration.underline))))),
+       */
           SizedBox(height: 115.v),
           Align(
               alignment: Alignment.centerRight,
@@ -86,29 +88,8 @@ class RegisterLogInOnePageState extends State<RegisterLogInOnePage>
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                            padding: EdgeInsets.only(top: 3.v, bottom: 7.v),
-                            child: RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: "إذا كنت لا تمتلك حساب فيجب عليك ",
-                                      style: CustomTextStyles
-                                          .bodySmallErrorContainer12),
-                                  TextSpan(text: " "),
-                                  TextSpan(
-                                      text: "إنشاء حساب",
-                                      style: CustomTextStyles
-                                          .labelLargePrimary_1
-                                          .copyWith(
-                                              decoration:
-                                                  TextDecoration.underline))
-                                ]),
-                                textAlign: TextAlign.left)),
-                        CustomImageView(
-                            imagePath: ImageConstant.imgFlagFill1Wght,
-                            height: 24.adaptSize,
-                            width: 24.adaptSize,
-                            margin: EdgeInsets.only(left: 8.h))
+
+
                       ]))),
           SizedBox(height: 37.v),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
+import 'package:noor_s_application1/models/User.dart';
+import 'package:noor_s_application1/utils.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_leading_image.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_subtitle_four.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_subtitle_two.dart';
@@ -39,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
                               width: 111.adaptSize,
                               radius: BorderRadius.circular(55.h)),
                           SizedBox(height: 16.v),
-                          Text("محمد علي", style: theme.textTheme.titleMedium),
+                          Text(empName.toString(), style: theme.textTheme.titleMedium),
                           SizedBox(height: 31.v),
                           _buildWidget1(context),
                           SizedBox(height: 23.v),
@@ -51,6 +53,7 @@ class ProfileScreen extends StatelessWidget {
                                       style: CustomTextStyles
                                           .bodySmallInterErrorContainer))),
                           SizedBox(height: 24.v),
+                        /*
                           Align(
                               alignment: Alignment.centerRight,
                               child: Padding(
@@ -58,8 +61,9 @@ class ProfileScreen extends StatelessWidget {
                                   child: Text("نشاطاتك",
                                       style: CustomTextStyles
                                           .titleMediumExtraBold))),
+                         */
                           SizedBox(height: 24.v),
-                          _buildTf2(context),
+                          //_buildTf2(context),
                           SizedBox(height: 274.v),
 
                         ]))))));
@@ -117,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
                                       style:
                                           CustomTextStyles.bodyMediumPrimary14),
                                   TextSpan(
-                                      text: "بنغازي",
+                                      text: address,
                                       style: CustomTextStyles
                                           .titleSmallErrorContainerBold)
                                 ]),
@@ -149,7 +153,7 @@ class ProfileScreen extends StatelessWidget {
                                       style:
                                           CustomTextStyles.bodyMediumPrimary14),
                                   TextSpan(
-                                      text: "0987654432",
+                                      text: mobile,
                                       style: CustomTextStyles
                                           .titleSmallErrorContainerBold)
                                 ]),

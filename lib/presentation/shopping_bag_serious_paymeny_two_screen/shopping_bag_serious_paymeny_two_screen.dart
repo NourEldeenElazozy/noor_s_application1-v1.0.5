@@ -25,49 +25,15 @@ class ShoppingBagSeriousPaymenyTwoScreen extends StatelessWidget {
                     child: Column(children: [
                   _buildWidget1(context),
                   SizedBox(height: 18.v),
-                  _buildArrowLeft(context),
+                  //_buildArrowLeft(context),
                   SizedBox(height: 36.v),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Container(
-                        width: 50.adaptSize,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 19.h, vertical: 13.v),
-                        decoration: AppDecoration.fillPrimary.copyWith(
-                            borderRadius: BorderRadiusStyle.circleBorder25),
-                        child: Text("2", style: theme.textTheme.titleLarge)),
-                    Padding(
-                        padding: EdgeInsets.only(top: 25.v, bottom: 24.v),
-                        child: SizedBox(
-                            width: 46.h,
-                            child: Divider(
-                                color: theme.colorScheme.primary,
-                                indent: 1.h))),
-                    Container(
-                        width: 50.adaptSize,
-                        margin: EdgeInsets.only(left: 2.h),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20.h, vertical: 13.v),
-                        decoration: AppDecoration.fillPrimary.copyWith(
-                            borderRadius: BorderRadiusStyle.circleBorder25),
-                        child: Text("1", style: theme.textTheme.titleLarge))
+
+
+
                   ]),
                   SizedBox(height: 14.v),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                          padding: EdgeInsets.only(right: 124.h),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text("وسيلة الدفع",
-                                    style: CustomTextStyles
-                                        .bodySmallErrorContainer10),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 48.h),
-                                    child: Text("عنوان التسليم",
-                                        style: CustomTextStyles
-                                            .bodySmallErrorContainer10))
-                              ]))),
+
                   SizedBox(height: 50.v),
                   Align(
                       alignment: Alignment.centerRight,
@@ -88,7 +54,7 @@ class ShoppingBagSeriousPaymenyTwoScreen extends StatelessWidget {
                         onTaptf(context);
                       }),
                   SizedBox(height: 233.v),
-                  _buildShoppingbagFILLwghtGRADopsz(context),
+                  //_buildShoppingbagFILLwghtGRADopsz(context),
                   Container(
                       height: 68.v,
                       width: double.maxFinite,

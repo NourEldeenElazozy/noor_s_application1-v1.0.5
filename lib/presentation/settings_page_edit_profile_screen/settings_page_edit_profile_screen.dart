@@ -25,7 +25,7 @@ class SettingsPageEditProfileScreen extends StatefulWidget {
 class _SettingsPageEditProfileScreenState extends State<SettingsPageEditProfileScreen> {
 
   bool isLoaded = false;
-  List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
+  List<String> dropdownItemList = [];
   TextEditingController emailController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -37,7 +37,7 @@ class _SettingsPageEditProfileScreenState extends State<SettingsPageEditProfileS
 
   @override
   Widget build(BuildContext context) {
-
+    dropdownItemList.addAll(authController.cities.map((city) => city.name));
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
@@ -113,7 +113,7 @@ class _SettingsPageEditProfileScreenState extends State<SettingsPageEditProfileS
                                           imagePath: ImageConstant.imgArrowdown,
                                           height: 24.adaptSize,
                                           width: 24.adaptSize)),
-                                  hintText: "بنغازي",
+                                  hintText: address,
                                   items: dropdownItemList,
                                   onChanged: (value) {})),
                           SizedBox(height: 65.v),

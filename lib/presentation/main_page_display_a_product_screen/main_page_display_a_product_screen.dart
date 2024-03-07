@@ -283,7 +283,7 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
 
-                      productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: 1, price: double.parse(productController.OneProduct.first.price));
+                      productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
                     },
                     child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 21.h),

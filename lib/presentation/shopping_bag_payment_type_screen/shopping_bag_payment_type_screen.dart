@@ -31,7 +31,7 @@ class ShoppingBagPaymentTypeScreen extends StatelessWidget {
                       SizedBox(height: 70.v),
                       InkWell(
                        onTap: () {
-                        Navigator.pushNamed(context, AppRoutes.shoppingBagSeriousPaymentOneScreen);
+                         Navigator.pushNamed(context, AppRoutes.shoppingBagSeriousPaymenyTwoScreen);
                        },
                         child: Center(
                           child: _buildThree(context,
@@ -40,10 +40,16 @@ class ShoppingBagPaymentTypeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 33.v),
-                      Center(
-                        child: _buildThree(context,
-                            creditCard: ImageConstant.imgCreditCard89x89,
-                            widget: "وسيلة الدفع\nالنقدي"),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, AppRoutes.shoppingBagseriousPaymentTwoTwoScreen);
+
+                        },
+                        child: Center(
+                          child: _buildThree(context,
+                              creditCard: ImageConstant.imgCreditCard89x89,
+                              widget: "وسيلة الدفع\nالنقدي"),
+                        ),
                       ),
                       SizedBox(height: 50.v),
                      /*

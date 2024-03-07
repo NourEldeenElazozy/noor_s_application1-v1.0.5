@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';import 'package:noor_s_application1/core/
  }
 
 // ignore_for_file: must_be_immutable
-class RegisterCreateAnAccountPageState extends State<RegisterCreateAnAccountPage> with  AutomaticKeepAliveClientMixin<RegisterCreateAnAccountPage> {List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
+class RegisterCreateAnAccountPageState extends State<RegisterCreateAnAccountPage> with  AutomaticKeepAliveClientMixin<RegisterCreateAnAccountPage> {List<String> dropdownItemList = ["Item Ones", "Item Two", "Item Three"];
 
 bool tf = false;
 

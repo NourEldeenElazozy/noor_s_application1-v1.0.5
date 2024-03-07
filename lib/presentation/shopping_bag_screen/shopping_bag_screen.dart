@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noor_s_application1/controllers/ProductsController.dart';
 import 'package:noor_s_application1/core/app_export.dart';
+import 'package:noor_s_application1/models/User.dart';
+import 'package:noor_s_application1/utils.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_leading_image.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_subtitle_five.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_title_image.dart';
@@ -43,7 +45,7 @@ class ShoppingBagScreen extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: Padding(
                               padding: EdgeInsets.only(right: 50.h),
-                              child: Text("عدد المنتجات 1",
+                              child: Text("عدد المنتجات ${productController.cartProductList.length.toString()}",
                                   style:
                                       CustomTextStyles.bodyMediumGray70001))),
                       SizedBox(height: 18.v),
@@ -97,7 +99,7 @@ class ShoppingBagScreen extends StatelessWidget {
             }),
         actions: [
           AppbarSubtitleFive(
-              text: "محمد علي",
+              text: empName.toString(),
               margin: EdgeInsets.fromLTRB(23.h, 29.v, 15.h, 3.v),
               onTap: () {
                 onTapWidget(context);
@@ -121,7 +123,7 @@ class ShoppingBagScreen extends StatelessWidget {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        onTapTxtWidget(context);
+                        productController.RemoveProducts();
                       },
                       child: Padding(
                           padding: EdgeInsets.only(top: 6.v),
@@ -219,7 +221,7 @@ class ShoppingBagScreen extends StatelessWidget {
         text: "حذف السلة",
         buttonStyle: CustomButtonStyles.fillRedA,
         onPressed: () {
-          onTaptf1(context);
+       productController.RemoveProducts();
         });
   }
 
@@ -228,7 +230,14 @@ class ShoppingBagScreen extends StatelessWidget {
     return CustomElevatedButton(
         width: 171.h,
         text: "شراء المنتجات",
+
         onPressed: () {
+          for (var product in productController.cartProductList){
+
+            productController.addtocart(product["id"],product["quantity"] );
+          }
+
+
           onTaptf2(context);
         });
   }
@@ -252,7 +261,7 @@ class ShoppingBagScreen extends StatelessWidget {
          Padding(
           padding: EdgeInsets.only(right: 25.h),
           child: Text(
-           "عدد المنتجات  :   1",
+           "عدد المنتجات  :${productController.totalQuantity.toString()}",
            style: CustomTextStyles.titleSmallGray90001,
           ),
          ),
@@ -260,7 +269,7 @@ class ShoppingBagScreen extends StatelessWidget {
          Padding(
           padding: EdgeInsets.only(right: 25.h),
           child: Text(
-           "السعر الكلي  :  65 د.ل",
+           "السعر الكلي  : ${productController.totalPrice.toString()} د.ل",
            style: CustomTextStyles.titleSmallGray90001,
           ),
          ),

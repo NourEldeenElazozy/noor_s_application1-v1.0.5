@@ -16,6 +16,8 @@ class ProductsController extends GetxController {
   bool isLoading2 = false;
   RxString selectedColor = ''.obs;
   RxString selectedSize = ''.obs;
+  double totalPrice = 0;
+  int totalQuantity=0;
   List<Map<String, dynamic>> cartProductList = <Map<String, dynamic>>[].obs;
   List<Map<String, dynamic>> favProductList = <Map<String, dynamic>>[];
   final number = 0.obs;
@@ -183,7 +185,7 @@ class ProductsController extends GetxController {
       );
       final response = await dio.post('http://zadstorely.ly/public/api/cart/add',  data: formData,  options: options);
       print("response.data");
-      print(response.data);
+      print(response.statusCode);
       final data = response.data as Map<String, dynamic>; // Access data as a map
 
       print(data);
@@ -250,10 +252,29 @@ class ProductsController extends GetxController {
     //cartProductList.clear();
     print("cartProductList");
     print(cartProductList.length);
+    for (var product in cartProductList) {
+      totalPrice += product['price'];
+      totalQuantity += int.parse(product['quantity'].toString());
+    }
+    print(totalPrice);
   }
   void deleteProduct(int id) {
     print("Product with ID ");
     cartProductList.removeWhere((product) => product['id'] == id);
     print("Product with ID $id has been deleted from cartProductList");
+    for (var product in cartProductList) {
+      totalPrice += product['price'];
+      totalQuantity += int.parse(product['quantity'].toString());
+    }
+  }
+
+  void RemoveProducts() {
+    print("Product with ID ");
+    cartProductList.clear();
+
+
+      totalPrice = 0;
+      totalQuantity =0 ;
+
   }
 }

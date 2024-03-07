@@ -3,24 +3,62 @@ import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'package:dio/dio.dart' as D;
+import 'package:noor_s_application1/models/Cities.dart';
 import 'package:noor_s_application1/models/User.dart';
 import 'package:noor_s_application1/utils.dart';
 
 
 final userToken = GetStorage();
-class AuthController {
+class AuthController extends GetxController
+{
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchCities();
+  }
+
+  City? selectedCity;
   String?  msg;
   String?  vcode;
-
+  final cities = <City>[].obs;
   int?  status;
   final _dio = Dio();
+  RxBool isLoading = false.obs;
+
+  void setSelectedCity(City? city) {
+    selectedCity = city;
+    update(); // Notify GetX that the state has changed
+  }
+  Future<void> fetchCities() async {
+    try {
+      print("SSAAS");
+      isLoading.value = true;
+      final response = await _dio.get('https://zadstorely.ly/public/api/cities');
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonResponse = response.data;
+        cities.clear(); // تنظيف القائمة قبل ملء البيانات الجديدة
+        cities.addAll(jsonResponse.map((json) => City.fromJson(json)));
+        print("city:${jsonResponse}");
+        isLoading.value = false;
+      } else {
+        print("SSS");
+        isLoading.value = false;
+      }
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+    }
+  }
+
 //Login Method
   Future<User?> login(email,password) async {
 
     try {
 
-      final formData = FormData.fromMap({
+      final formData =D.FormData.fromMap({
 
         "email": email,
         'password': password,
@@ -62,8 +100,8 @@ class AuthController {
           print(userToken.read('user_id'));
           empName=user.name;
           email=user.email;
-
-          //orders=user.order_count;
+          mobile = user.phone;
+          address = user.address;
 
           print(Token);
 
@@ -110,7 +148,7 @@ class AuthController {
       String avatar,
       ) async {
     try {
-      final formData = FormData.fromMap({
+      final formData = D.FormData.fromMap({
         "name": name,
         "phone": phone,
         "address": address,
@@ -146,8 +184,8 @@ class AuthController {
           print(userToken.read('user_id'));
           empName = user.name;
           mobile = user.phone;
+          address = user.address;
 
-          print(Token);
 
           status = 1;
         } else {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:noor_s_application1/controllers/AuthController.dart';
 import 'package:noor_s_application1/core/app_export.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_leading_image.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_subtitle_two.dart';
@@ -8,21 +10,23 @@ import 'package:noor_s_application1/widgets/custom_drop_down.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 import 'package:noor_s_application1/widgets/custom_icon_button.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
-
+import 'package:get/get.dart';
 // ignore_for_file: must_be_immutable
 class SettingsPageEditProfileOneScreen extends StatelessWidget {
   SettingsPageEditProfileOneScreen({Key? key}) : super(key: key);
 
-  List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
+  List<String> dropdownItemList = [];
+
 
   TextEditingController shoppingbagFILLwghtGRADopszController =
       TextEditingController();
-
+  final AuthController authController = Get.put(AuthController());
   TextEditingController shoppingbagFILLwghtGRADopszController1 =
       TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    dropdownItemList.addAll(authController.cities.map((city) => city.name));
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(

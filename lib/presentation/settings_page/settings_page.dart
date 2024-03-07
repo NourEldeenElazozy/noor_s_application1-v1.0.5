@@ -53,8 +53,10 @@ class SettingsPage extends StatelessWidget {
                                   ])),
                           SizedBox(height: 29.v),
                           _buildWidget3(context),
+                        /*
                           SizedBox(height: 34.v),
                           _buildLockFILLWght2(context),
+                         */
                           SizedBox(height: 34.v),
                           _buildLockFILLWght4(context),
                           SizedBox(height: 49.v),
