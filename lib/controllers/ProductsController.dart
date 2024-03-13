@@ -38,24 +38,32 @@ class ProductsController extends GetxController {
   }
   Future<void> fetchData() async {
     try {
-
       isLoading(true);
-      final response = await dio.get('http://zadstorely.ly/public/api/products');
 
-      final data = response.data as Map<String, dynamic>; // Access data as a map
+      final response = await dio.get('http://zadstorely.ly/public/api/products');
+      final data = response.data as Map<String, dynamic>;
 
       if (data != null) {
-
-
-        // Extract the product list from the API response
         final productList = data['data'] as List;
 
-        products(productList.map((e) => Products.fromJson(e)).toList()); // Map to Product objects
+        // Create a Set to store unique product IDs
+        final uniqueProductIds = <String>{};
+        final uniqueProducts = <Products>[];
 
-        print(productList.first);
+        for (final item in productList) {
+          final product = Products.fromJson(item);
+
+          // Check if ID is already present in the set
+          if (!uniqueProductIds.contains(product.id)) {
+            uniqueProductIds.add(product.id);
+            uniqueProducts.add(product);
+          }
+        }
+
+        products(uniqueProducts); // Update products with unique items
+        print(uniqueProducts.first);
       }
     } catch (error) {
-      // Handle error appropriately (e.g., print error message or display error UI)
       print("Error fetching products: $error");
     } finally {
       isLoading(false);
@@ -79,37 +87,10 @@ class ProductsController extends GetxController {
 
 
         productstype(productList.map((e) => Products.fromJson(e)).toList()); // Map to Product objects
-        }
-        print(productList.first);
-      }
-    } catch (error) {
-      // Handle error appropriately (e.g., print error message or display error UI)
-      print("Error fetching products: $error");
-    } finally {
-      isLoading(false);
-    }
-  }
-  Future<void> getproductsSection(int section) async {
-    try {
-
-      isLoading(true);
-      final response = await dio.get('http://zadstorely.ly/public/api/products?section=$section');
-
-      final data = response.data as Map<String, dynamic>; // Access data as a map
-
-
-      if (data != null) {
-
-
-        // Extract the product list from the API response
-        final productList = data['data'] as List;
-
-
-
-          productsSection(productList.map((e) => Products.fromJson(e)).toList()); // Map to Product objects
-
         print("productList.first");
         print(productList.first);
+        }
+
       }
     } catch (error) {
       // Handle error appropriately (e.g., print error message or display error UI)
@@ -118,6 +99,43 @@ class ProductsController extends GetxController {
       isLoading(false);
     }
   }
+  Future<void> getProductsSection(int section) async {
+    try {
+      isLoading(true);
+
+      final response = await dio.get('http://zadstorely.ly/public/api/products?section=$section');
+      final data = response.data as Map<String, dynamic>;
+
+      if (data != null) {
+        final productList = data['data'] as List;
+
+        // Use a Set to store unique product IDs
+        final uniqueProductIds = <String>{};
+        final uniqueProducts = <Products>[];
+
+        for (final item in productList) {
+          final product = Products.fromJson(item);
+
+          // Check if ID is already seen
+          if (!uniqueProductIds.contains(product.id)) {
+            uniqueProductIds.add(product.id);
+            uniqueProducts.add(product);
+          }
+        }
+
+        productsSection(uniqueProducts); // Pass only unique products
+
+        print("productsSection.length");
+        print(uniqueProducts.length); // Print the number of unique products
+      }
+    } catch (error) {
+      // Handle error appropriately
+      print("Error fetching products: $error");
+    } finally {
+      isLoading(false);
+    }
+  }
+
   Future<void> getproduct(name) async {
     try {
 
@@ -184,6 +202,7 @@ class ProductsController extends GetxController {
         },
       );
       final response = await dio.post('http://zadstorely.ly/public/api/cart/add',  data: formData,  options: options);
+      final response2 = await dio.post('https://zadstorely.ly/public/api/checkout',  options: options);
       print("response.data");
       print(response.statusCode);
       final data = response.data as Map<String, dynamic>; // Access data as a map
@@ -204,6 +223,7 @@ class ProductsController extends GetxController {
       isLoading2 = false;
     }
   }
+
   void setSelectedColor(String color) {
     selectedColor.value = color;
   }
@@ -252,16 +272,20 @@ class ProductsController extends GetxController {
     //cartProductList.clear();
     print("cartProductList");
     print(cartProductList.length);
+
     for (var product in cartProductList) {
       totalPrice += product['price'];
       totalQuantity += int.parse(product['quantity'].toString());
     }
-    print(totalPrice);
+    print("totalQuantity");
+    print(totalQuantity);
   }
   void deleteProduct(int id) {
     print("Product with ID ");
     cartProductList.removeWhere((product) => product['id'] == id);
     print("Product with ID $id has been deleted from cartProductList");
+    totalPrice=0;
+    totalQuantity=0;
     for (var product in cartProductList) {
       totalPrice += product['price'];
       totalQuantity += int.parse(product['quantity'].toString());

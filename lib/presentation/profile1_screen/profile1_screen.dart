@@ -447,7 +447,7 @@ class Profile1Screen extends StatelessWidget {
         return AppRoutes.sectionsOnePage;
       case BottomBarEnum.Vectorerrorcontainer19x19:
         return AppRoutes.sectionsPage;
-      case BottomBarEnum.Homefill0wght:
+      case BottomBarEnum.mainPageOneScreen:
         return AppRoutes.mainPage;
       default:
         return "/";

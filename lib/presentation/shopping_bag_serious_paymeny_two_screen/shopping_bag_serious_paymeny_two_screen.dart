@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
-
+import 'package:noor_s_application1/utils.dart';
 // ignore_for_file: must_be_immutable
 class ShoppingBagSeriousPaymenyTwoScreen extends StatelessWidget {
   ShoppingBagSeriousPaymenyTwoScreen({Key? key}) : super(key: key);
@@ -45,6 +45,15 @@ class ShoppingBagSeriousPaymenyTwoScreen extends StatelessWidget {
                   SizedBox(height: 13.v),
                   _buildWidget2(context),
                   SizedBox(height: 25.v),
+                      CustomElevatedButton(
+                          text: "موافق",
+                          margin: EdgeInsets.only(left: 32.h, right: 36.h),
+                          buttonTextStyle:
+                          CustomTextStyles.titleMediumWhiteA700ExtraBold,
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoutes.mainPageOneScreen);
+                          }),
+                 /*
                   CustomElevatedButton(
                       text: "الفاتورة",
                       margin: EdgeInsets.only(left: 32.h, right: 36.h),
@@ -53,6 +62,7 @@ class ShoppingBagSeriousPaymenyTwoScreen extends StatelessWidget {
                       onPressed: () {
                         onTaptf(context);
                       }),
+                  */
                   SizedBox(height: 233.v),
                   //_buildShoppingbagFILLwghtGRADopsz(context),
                   Container(
@@ -82,7 +92,7 @@ class ShoppingBagSeriousPaymenyTwoScreen extends StatelessWidget {
                         },
                         child: Padding(
                             padding: EdgeInsets.only(top: 10.v, bottom: 3.v),
-                            child: Text("محمد علي",
+                            child: Text(empName.toString(),
                                 style: CustomTextStyles
                                     .labelLargeErrorContainer_1))),
                     CustomImageView(
@@ -173,6 +183,7 @@ class ShoppingBagSeriousPaymenyTwoScreen extends StatelessWidget {
                       style:
                           theme.textTheme.bodyMedium!.copyWith(height: 1.33))),
               SizedBox(height: 97.v),
+           /*
               Padding(
                   padding: EdgeInsets.only(right: 6.h),
                   child:
@@ -198,6 +209,7 @@ class ShoppingBagSeriousPaymenyTwoScreen extends StatelessWidget {
                       textAlign: TextAlign.right,
                       style:
                           theme.textTheme.titleMedium!.copyWith(height: 1.44))),
+            */
               SizedBox(height: 37.v)
             ]));
   }

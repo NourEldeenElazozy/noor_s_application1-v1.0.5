@@ -87,6 +87,46 @@ class MainPageOneScreen extends StatelessWidget {
                                       ),
                                     ),
                                     ),
+                                /*
+                                   Obx(() {
+                                      if (searchController.value.text.length <= 0) {
+
+                                        return Container();
+                                      }
+                                      if (productController.Searchproducts.isEmpty || searchController.value.text.length <= 0 ) {
+
+
+
+                                        return Container(); // Show an empty container when there are no results
+                                      } else {
+                                        return Directionality(
+                                          textDirection: TextDirection.rtl,
+                                          child: Container(
+
+                                            height: 250,
+                                            width: 250,
+                                            child: ListView.builder(
+                                              itemCount: productController.products.length,
+                                              itemBuilder: (context, index) {
+                                                final result = productController.products[index].name;
+                                                return ListTile(
+
+
+                                                  title:  InkWell(
+                                                    child: Text(productController.products[index].name,
+                                                        style: CustomTextStyles
+                                                            .titleMediumBlack90004),
+                                                  ),
+                                                  // Customize the list item as needed
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }),
+                                 */
+                                /*
                                     Obx(() {
                                       if (searchController.value.text.length <= 0) {
 
@@ -124,6 +164,7 @@ class MainPageOneScreen extends StatelessWidget {
                                         );
                                       }
                                     }),
+                                 */
                                 SizedBox(height: 29.v),
                                 Align(
                                     alignment: Alignment.centerRight,
@@ -133,7 +174,38 @@ class MainPageOneScreen extends StatelessWidget {
                                             style: CustomTextStyles
                                                 .titleSmallErrorContainerBold_1))),
                                 SizedBox(height: 15.v),
-                                _buildWidget1(context),
+                              Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25),
+                            child: CarouselSlider.builder(
+                              options: CarouselOptions(
+                                height: 158,
+                                initialPage: 0,
+                                autoPlay: true,
+                                viewportFraction: 1.0,
+                                enableInfiniteScroll: false,
+                                scrollDirection: Axis.horizontal,
+                                onPageChanged: (index, reason) {
+                                  // يمكنك إضافة السلوك الذي ترغب فيه عند تغيير الصورة
+                                },
+                              ),
+                              itemCount: 2,
+                              itemBuilder: (context, index, realIndex) {
+                                // استبدل ImageConstant.imgRectangle6 بمسار الصورة الفعلي لكل صورة
+                                String imagePath = index == 0 ? ImageConstant.slider1 : ImageConstant.slider2;
+
+                                return CustomImageView(
+                                  onTap: () {
+                                    print(imagePath);
+                                  },
+                                  imagePath:imagePath ,
+                                  height: 158,
+                                  width: 376,
+                                  fit:BoxFit.cover ,
+                                  radius: BorderRadius.circular(8),
+                                );
+                              },
+                            ),
+                          ),
                                 SizedBox(height: 7.v),
                                 SizedBox(
                                     height: 4.v,
@@ -173,7 +245,7 @@ class MainPageOneScreen extends StatelessWidget {
 
                                             child: ListView.builder(
                                               scrollDirection: Axis.horizontal, // تحديد الاتجاه الأفقي
-                                              itemCount: productController.productstype.length,
+                                              itemCount: productController.products.length,
                                               itemBuilder: (context, index) {
                                                 return InkWell(
                                                   onTap: () {
@@ -264,17 +336,19 @@ class MainPageOneScreen extends StatelessWidget {
 
                                 SizedBox(height: 17.v),
 
+                              /*
                                 CustomImageView(
                                     imagePath:
                                         ImageConstant.imgRectangle2068x427,
                                     height: 68.v,
                                     width: 427.h)
+                               */
                               ]))))
                 ])),
    bottomNavigationBar: CustomBottomBar(
    onChanged: (type) {
-    if (type==BottomBarEnum.Homefill0wght){
-     Navigator.push(context, MaterialPageRoute(builder: (context) =>ShoppingBagScreen()));
+    if (type==BottomBarEnum.mainPageOneScreen){
+     Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPageOneScreen()));
     }else if(type==BottomBarEnum.Vectorerrorcontainer19x19){
      Navigator.push(context, MaterialPageRoute(builder: (context) =>SectionsPage()));
     }else if(type==BottomBarEnum.Vectorerrorcontainer18x20){
@@ -333,24 +407,39 @@ class MainPageOneScreen extends StatelessWidget {
   }
 
   /// Section Widget
+
   Widget _buildWidget1(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.h),
-        child: CarouselSlider.builder(
-            options: CarouselOptions(
-                height: 158.v,
-                initialPage: 0,
-                autoPlay: true,
-                viewportFraction: 1.0,
-                enableInfiniteScroll: false,
-                scrollDirection: Axis.horizontal,
-                onPageChanged: (index, reason) {
-                  sliderIndex = index;
-                }),
-            itemCount: 1,
-            itemBuilder: (context, index, realIndex) {
-              return Widget1ItemWidget();
-            }));
+      padding: EdgeInsets.symmetric(horizontal: 25),
+      child: CarouselSlider.builder(
+        options: CarouselOptions(
+          height: 158,
+          initialPage: 0,
+          autoPlay: true,
+          viewportFraction: 1.0,
+          enableInfiniteScroll: false,
+          scrollDirection: Axis.horizontal,
+          onPageChanged: (index, reason) {
+            // يمكنك إضافة السلوك الذي ترغب فيه عند تغيير الصورة
+          },
+        ),
+        itemCount: 2,
+        itemBuilder: (context, index, realIndex) {
+          // استبدل ImageConstant.imgRectangle6 بمسار الصورة الفعلي لكل صورة
+          String imagePath = index == 0 ? ImageConstant.slider1 : ImageConstant.slider2;
+
+          return CustomImageView(
+            onTap: () {
+              print(imagePath);
+            },
+            imagePath:"images/slider1.JPG" ,
+            height: 158,
+            width: 376,
+            radius: BorderRadius.circular(8),
+          );
+        },
+      ),
+    );
   }
 
   /// Section Widget
@@ -446,7 +535,7 @@ class MainPageOneScreen extends StatelessWidget {
                             sixHundredFifty: "65.0 د.ل",
                             nike: "الماركة : Nike")),
                     SizedBox(height: 9.v),
-                    _buildShoppingbagFILLwghtGRADopsz1(context),
+                    //_buildShoppingbagFILLwghtGRADopsz1(context),
                     SizedBox(height: 7.v)
                   ])))
         ]));
@@ -494,7 +583,7 @@ class MainPageOneScreen extends StatelessWidget {
                             sixHundredFifty: "$price د.ل",
                             nike: "الماركة : $mark")),
                     SizedBox(height: 11.v),
-                    _buildShoppingbagFILLwghtGRADopsz3(context),
+                   // _buildShoppingbagFILLwghtGRADopsz3(context),
                     SizedBox(height: 7.v)
                   ]))),
 
@@ -607,7 +696,7 @@ class MainPageOneScreen extends StatelessWidget {
         return AppRoutes.sectionsOnePage;
       case BottomBarEnum.Vectorerrorcontainer19x19:
         return AppRoutes.sectionsPage;
-      case BottomBarEnum.Homefill0wght:
+      case BottomBarEnum.mainPageOneScreen:
         return AppRoutes.mainPageOneScreen;
       default:
         return "/";

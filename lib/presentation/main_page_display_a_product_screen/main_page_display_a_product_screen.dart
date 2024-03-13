@@ -50,12 +50,22 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                                           child: Stack(
                                               alignment: Alignment.center,
                                               children: [
-                                                CustomImageView(
-                                                    imagePath:
-                                                    "https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}",
-                                                    height: 628.v,
-                                                    width: 428.h,
-                                                    alignment: Alignment.center),
+                                                InkWell(
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return ImageViewDialog(imagePath: "https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}");
+                                                      },
+                                                    );
+                                                  },
+                                                  child: CustomImageView(
+                                                  imagePath:
+                                                  "https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}",
+                                                      height: 628.v,
+                                                      width: 428.h,
+                                                      alignment: Alignment.center),
+                                                ),
                                                 Align(
                                                     alignment: Alignment.center,
                                                     child: Padding(
@@ -113,7 +123,10 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
               imagePath: ImageConstant.imgFavoriteFill0,
               margin: EdgeInsets.symmetric(horizontal: 21.h),
               onTap: () {
+
+
                 productController.addfavProduct(id:id,name: name,image: image,price:price  );
+                GetSnackBar(title: "done",message: "تم الإضافة الي المفضلة بنجاح",);
               })
         ]);
   }
@@ -177,13 +190,16 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: productController.OneProduct.first.sizes.length,
+
                   itemBuilder: (context, index) {
                     final size = productController.OneProduct.first.sizes[index].size;
+                    print("sizesizesizesize ${productController.OneProduct.first.sizes.length}");
                     return Obx(() => InkWell(
                       onTap: () {
                         productController.setSelectedSize(size);
                       },
                       child: Container(
+
                         width: 50,
                         height: 50,
                         margin: EdgeInsets.all(10),
@@ -192,7 +208,7 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                           color: productController.selectedSize.value == size ? Colors.deepOrange : Colors.grey,
                         ),
                         child:Center(child: Text( productController.OneProduct.first.sizes[index].size,
-                        style: TextStyle(color: Colors.white),))
+                        style: TextStyle(color: Colors.black),))
 
                       ),
                     ));
@@ -204,7 +220,7 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 6.h),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
                             width: 115.h,
@@ -223,6 +239,7 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                                 borderRadius: BorderRadiusStyle.roundedBorder5),
                             child: Text("الماركة : ${productController.OneProduct.first.mark}",
                                 style: theme.textTheme.titleMedium)),
+                       /*
                         Container(
                             width: 115.h,
                             padding: EdgeInsets.symmetric(
@@ -231,8 +248,9 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                                 borderRadius: BorderRadiusStyle.roundedBorder5),
                             child: Text("المقاس : 40",
                                 style: theme.textTheme.titleMedium))
+                        */
                       ])),
-              SizedBox(height: 25.v),
+
               Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
@@ -277,13 +295,48 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
               SizedBox(height: 14.v),
               GestureDetector(
                   onTap: () {
+                    print('//////////////2');
+                    print(int.parse(productController.OneProduct.first.count));
+                    print(int.parse(productController.number.value.toString()));
+                    print('//////////////2');
+                    if(int.parse(productController.OneProduct.first.count)<int.parse(productController.number.value.toString())){
+                      final snackBar = SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text('عذراً الكمية المطلوبة اكبر من الكمية المتاحة'),
+                      );
+                    }else{
+                      productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
+                      final snackBar = SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text('تمت الإضافة إلى السلة بنجاح'),
+                      );
+                    }
 
                     //onTapAddProductTo(context);
                   },
                   child: InkWell(
                     onTap: () {
 
-                      productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
+                      print('//////////////3');
+                      print(int.parse(productController.OneProduct.first.count));
+                      print(int.parse(productController.number.value.toString()));
+                      print('//////////////3');
+                      if(int.parse(productController.OneProduct.first.count)<int.parse(productController.number.value.toString())){
+                        final snackBar = SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text('عذراً الكمية المطلوبة اكبر من الكمية المتاحة'),
+
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }else{
+                        productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
+                        final snackBar = SnackBar(
+                          backgroundColor: Colors.green,
+                          content: Text('تمت الإضافة إلى السلة بنجاح'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+
                     },
                     child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 21.h),
@@ -302,8 +355,25 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                               InkWell(
                                 onTap: () {
 
+                                  print('//////////////');
+                                  print(int.parse(productController.OneProduct.first.count));
+                                  print(int.parse(productController.number.value.toString()));
+                                  print('//////////////');
+                                  if(int.parse(productController.OneProduct.first.count)<int.parse(productController.number.value.toString())){
+                                    final snackBar = SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text('عذراً الكمية المطلوبة اكبر من الكمية المتاحة'),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  }else{
+                                    productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
+                                    final snackBar = SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text('تمت الإضافة إلى السلة بنجاح'),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  }
 
-                                // productController.addtocart(int.parse(productController.OneProduct.first.id), productController.number.toInt());
                                 },
                                 child: Padding(
                                     padding: EdgeInsets.only(top: 2.v, right: 19.h),
@@ -339,3 +409,42 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
             ));
   }
 }
+  class ImageViewDialog extends StatefulWidget {
+  final String imagePath;
+
+  ImageViewDialog({required this.imagePath});
+
+  @override
+  _ImageViewDialogState createState() => _ImageViewDialogState();
+  }
+  class _ImageViewDialogState extends State<ImageViewDialog> {
+  double imageSize = 1.0;
+
+  @override
+  Widget build(BuildContext context) {
+  return Dialog(
+  child: GestureDetector(
+  onTap: () {
+  setState(() {
+  imageSize = imageSize == 1.0 ? 2.0 : 1.0;
+  });
+  },
+  child: SizedBox(
+  width: MediaQuery.of(context).size.width,
+  height: MediaQuery.of(context).size.height,
+  child: Center(
+  child: InteractiveViewer(
+  minScale: 1.0,
+  maxScale: 4.0,
+  child: Image.network(
+  widget.imagePath,
+  fit: BoxFit.contain,
+  scale: imageSize,
+  ),
+  ),
+  ),
+  ),
+  ),
+  );
+  }
+  }

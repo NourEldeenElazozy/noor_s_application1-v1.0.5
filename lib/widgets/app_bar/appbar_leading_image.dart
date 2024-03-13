@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
+import 'package:noor_s_application1/presentation/main_page_one_screen/main_page_one_screen.dart';
 import 'package:noor_s_application1/presentation/shopping_bag_screen/shopping_bag_screen.dart';
 
 // ignore: must_be_immutable
@@ -23,7 +24,12 @@ class AppbarLeadingImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>ShoppingBagScreen()));
+        if(imagePath==ImageConstant.imgShoppingBagFiErrorcontainer){
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>ShoppingBagScreen()));
+        }else{
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPageOneScreen()));
+        }
+
       },
       child: Padding(
         padding: margin ?? EdgeInsets.zero,

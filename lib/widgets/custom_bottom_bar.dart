@@ -9,15 +9,16 @@ class CustomBottomBar extends StatefulWidget {
   @override
   CustomBottomBarState createState() => CustomBottomBarState();
 }
-
+int selectedIndex = 0;
 class CustomBottomBarState extends State<CustomBottomBar> {
-  int selectedIndex = 0;
+
 
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
       icon: ImageConstant.imgVector20x20,
       activeIcon: ImageConstant.imgVector20x20,
       type: BottomBarEnum.Vector20x20,
+
     ),
     BottomMenuModel(
       icon: ImageConstant.imgVectorErrorcontainer18x20,
@@ -32,7 +33,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     BottomMenuModel(
       icon: ImageConstant.imgHomeFill0Wght,
       activeIcon: ImageConstant.imgHomeFill0Wght,
-      type: BottomBarEnum.Homefill0wght,
+      type: BottomBarEnum.mainPageOneScreen,
     )
   ];
 
@@ -104,7 +105,10 @@ class CustomBottomBarState extends State<CustomBottomBar> {
           );
         }),
         onTap: (index) {
+
           selectedIndex = index;
+          print("typee ${bottomMenuList[index].type}");
+          print("selectedIndex $selectedIndex");
           widget.onChanged?.call(bottomMenuList[index].type);
           setState(() {});
         },
@@ -117,7 +121,7 @@ enum BottomBarEnum {
   Vector20x20,
   Vectorerrorcontainer18x20,
   Vectorerrorcontainer19x19,
-  Homefill0wght,
+  mainPageOneScreen,
 }
 
 class BottomMenuModel {
@@ -125,6 +129,7 @@ class BottomMenuModel {
     required this.icon,
     required this.activeIcon,
     required this.type,
+
   });
 
   String icon;

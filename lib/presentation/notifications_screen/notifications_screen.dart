@@ -4,6 +4,7 @@ import 'package:noor_s_application1/presentation/main_page/main_page.dart';
 import 'package:noor_s_application1/presentation/sections_one_page/sections_one_page.dart';
 import 'package:noor_s_application1/presentation/sections_page/sections_page.dart';
 import 'package:noor_s_application1/presentation/settings_page/settings_page.dart';
+import 'package:noor_s_application1/utils.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_leading_image.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_subtitle_five.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_trailing_circleimage.dart';
@@ -96,7 +97,7 @@ class NotificationsScreen extends StatelessWidget {
             ])),
         actions: [
           AppbarSubtitleFive(
-              text: "محمد علي",
+              text: empName.toString(),
               margin: EdgeInsets.fromLTRB(23.h, 29.v, 15.h, 3.v)),
           AppbarTrailingCircleimage(
               imagePath: ImageConstant.imgEllipse2,
@@ -305,7 +306,7 @@ class NotificationsScreen extends StatelessWidget {
         return AppRoutes.sectionsOnePage;
       case BottomBarEnum.Vectorerrorcontainer19x19:
         return AppRoutes.sectionsPage;
-      case BottomBarEnum.Homefill0wght:
+      case BottomBarEnum.mainPageOneScreen:
         return AppRoutes.mainPage;
       default:
         return "/";

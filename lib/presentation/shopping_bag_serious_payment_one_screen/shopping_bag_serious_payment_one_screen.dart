@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:noor_s_application1/controllers/ProductsController.dart';
 import 'package:noor_s_application1/core/app_export.dart';
 import 'package:noor_s_application1/widgets/custom_drop_down.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
-
+import 'package:noor_s_application1/utils.dart';
 // ignore_for_file: must_be_immutable
 class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
   ShoppingBagSeriousPaymentOneScreen({Key? key}) : super(key: key);
 
   List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
-
+  final ProductsController productController = Get.put(ProductsController());
   TextEditingController shoppingbagFILLwghtGRADopszController =
       TextEditingController();
-
+  final ProductsController productsController = Get.put(ProductsController());
   TextEditingController shoppingbagFILLwghtGRADopszController1 =
       TextEditingController();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
@@ -30,6 +38,7 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
                   SizedBox(height: 18.v),
                   _buildArrowLeft(context),
                   SizedBox(height: 36.v),
+
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Container(
                         width: 50.adaptSize,
@@ -59,7 +68,64 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
 
 
 
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: fullNameController,
+                                decoration: InputDecoration(labelText: 'الاسم الكامل'),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'الاسم الكامل مطلوب';
+                                  } else if (value.length <= 10) {
+                                    return 'الاسم الكامل يجب أن يتكون من أكثر من 10 أحرف';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: cityController,
+                                decoration: InputDecoration(labelText: 'المدينة'),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'المدينة مطلوبة';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: addressController,
+                                decoration: InputDecoration(labelText: 'العنوان'),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'العنوان مطلوب';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: phoneNumberController,
+                                decoration: InputDecoration(labelText: 'رقم الهاتف'),
+                                keyboardType: TextInputType.phone,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'رقم الهاتف مطلوب';
+                                  } else if (!value.startsWith('09')) {
+                                    return 'رقم الهاتف يجب أن يبدأ بـ 09';
+                                  } else if (value.length != 10) {
+                                    return 'رقم الهاتف يجب أن يتكون من 10 أرقام';
+                                  }
+                                  return null;
+                                },
+                              ),
 
+                            ],
+                          ),
+                        ),
+                      ),
                   SizedBox(height: 37.v),
 
                   CustomElevatedButton(
@@ -68,7 +134,10 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
                       buttonTextStyle:
                           CustomTextStyles.titleMediumWhiteA700ExtraBold,
                       onPressed: () {
-                        onTaptf(context);
+                        if (_formKey.currentState!.validate()) {
+                          onTaptf(context);
+                        }
+
                       }),
 
                   Container(
@@ -98,7 +167,7 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
                         },
                         child: Padding(
                             padding: EdgeInsets.only(top: 10.v, bottom: 3.v),
-                            child: Text("محمد علي",
+                            child: Text(empName.toString(),
                                 style: CustomTextStyles
                                     .labelLargeErrorContainer_1))),
                     CustomImageView(
@@ -119,7 +188,10 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
                       children: [
                         Padding(
                             padding: EdgeInsets.only(top: 8.v, bottom: 9.v),
-                            child: Text("السعر الكلي  :  65د.ل",
+
+                            child: Text(
+
+                                "السعر الكلي  : ${productController.totalPrice.toString()} د.ل",
                                 style: CustomTextStyles.titleSmallGray80001)),
                         Spacer(flex: 49),
                         SizedBox(
@@ -132,7 +204,7 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
                         Spacer(flex: 50),
                         Padding(
                             padding: EdgeInsets.only(top: 10.v, bottom: 14.v),
-                            child: Text("عدد المنتجات  :  1",
+                            child: Text("عدد المنتجات ${productController.totalQuantity.toString()}",
                                 style: CustomTextStyles.titleSmallGray80001))
                       ]))
             ]));
@@ -274,6 +346,11 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
 
   /// Navigates to the shoppingBagSeriousPaymenyTwoScreen when the action is triggered.
   onTaptf(BuildContext context) {
+    for (var product in  productsController.cartProductList) {
+      productsController.addtocart(product['id'], product['quantity']);
+
+    }
+
     Navigator.pushNamed(context, AppRoutes.shoppingBagSeriousPaymenyTwoScreen);
   }
 }

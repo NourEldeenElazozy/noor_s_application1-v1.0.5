@@ -60,7 +60,7 @@ class ShoppingBagBillScreen extends StatelessWidget {
                                               padding:
                                                   EdgeInsets.only(right: 15.h),
                                               child: Text(
-                                                  "اسم العميل : محمد علي",
+                                                  "اسم العميل : empName.toString()",
                                                   style: theme
                                                       .textTheme.bodyMedium)),
                                           SizedBox(height: 13.v),

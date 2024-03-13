@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
-
+import 'package:noor_s_application1/utils.dart';
 // ignore_for_file: must_be_immutable
 class ShoppingBagPaymentTypeScreen extends StatelessWidget {
   ShoppingBagPaymentTypeScreen({Key? key}) : super(key: key);
@@ -31,7 +31,8 @@ class ShoppingBagPaymentTypeScreen extends StatelessWidget {
                       SizedBox(height: 70.v),
                       InkWell(
                        onTap: () {
-                         Navigator.pushNamed(context, AppRoutes.shoppingBagSeriousPaymenyTwoScreen);
+
+                         //Navigator.pushNamed(context, AppRoutes.shoppingBagSeriousPaymenyTwoScreen);
                        },
                         child: Center(
                           child: _buildThree(context,
@@ -42,8 +43,8 @@ class ShoppingBagPaymentTypeScreen extends StatelessWidget {
                       SizedBox(height: 33.v),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, AppRoutes.shoppingBagseriousPaymentTwoTwoScreen);
 
+                          Navigator.pushNamed(context, AppRoutes.shoppingBagSeriousPaymentOneScreen);
                         },
                         child: Center(
                           child: _buildThree(context,
@@ -91,7 +92,7 @@ class ShoppingBagPaymentTypeScreen extends StatelessWidget {
                         },
                         child: Padding(
                             padding: EdgeInsets.only(top: 10.v, bottom: 3.v),
-                            child: Text("محمد علي",
+                            child: Text(empName.toString(),
                                 style: CustomTextStyles
                                     .labelLargeErrorContainer_1))),
                     CustomImageView(

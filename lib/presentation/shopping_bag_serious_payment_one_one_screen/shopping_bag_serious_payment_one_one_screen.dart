@@ -3,7 +3,7 @@ import 'package:noor_s_application1/core/app_export.dart';
 import 'package:noor_s_application1/widgets/custom_drop_down.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
-
+import 'package:noor_s_application1/utils.dart';
 // ignore_for_file: must_be_immutable
 class ShoppingBagSeriousPaymentOneOneScreen extends StatelessWidget {
   ShoppingBagSeriousPaymentOneOneScreen({Key? key}) : super(key: key);
@@ -99,7 +99,7 @@ class ShoppingBagSeriousPaymentOneOneScreen extends StatelessWidget {
                         },
                         child: Padding(
                             padding: EdgeInsets.only(top: 10.v, bottom: 3.v),
-                            child: Text("محمد علي",
+                            child: Text(empName.toString(),
                                 style: CustomTextStyles
                                     .labelLargeErrorContainer_1))),
                     CustomImageView(

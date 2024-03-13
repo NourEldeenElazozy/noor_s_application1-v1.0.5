@@ -143,7 +143,8 @@ class ImageConstant {
   static String imgSearch = '$imagePath/img_search.svg';
 
   static String imgRectangle6 = '$imagePath/img_rectangle_6.png';
-
+  static String slider1 = '$imagePath/slider1.JPG';
+  static String slider2 = '$imagePath/slider2.JPG';
   static String imgRectangle12 = '$imagePath/img_rectangle_12.png';
 
   static String imgFavoriteFill0 = '$imagePath/img_favorite_fill0.svg';
@@ -241,7 +242,7 @@ class ImageConstant {
 
   static String imgUserProfile1 = '$imagePath/img_user_profile_1.svg';
 
-  static String imgEllipse14 = '$imagePath/img_ellipse_14.png';
+  static String imgEllipse14 = '$imagePath/img_zad_store_10_1.png';
 
   static String imgLocationOnFil = '$imagePath/img_location_on_fil.svg';
 

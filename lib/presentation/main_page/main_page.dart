@@ -1,3 +1,5 @@
+import 'package:noor_s_application1/utils.dart';
+
 import '../main_page/widgets/framethirteen_item_widget.dart';
 import '../main_page/widgets/k0_item_widget.dart';
 import '../main_page/widgets/widget_item_widget.dart';
@@ -133,7 +135,7 @@ class MainPage extends StatelessWidget {
                   margin: EdgeInsets.only(left: 37.h)),
               actions: [
                 AppbarSubtitleFive(
-                    text: "محمد علي",
+                    text: empName.toString(),
                     margin: EdgeInsets.fromLTRB(23.h, 29.v, 15.h, 3.v)),
                 AppbarTrailingCircleimage(
                     imagePath: ImageConstant.imgEllipse2,

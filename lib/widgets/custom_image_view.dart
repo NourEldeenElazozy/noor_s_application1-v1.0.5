@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:noor_s_application1/core/app_export.dart';
 
 class CustomImageView extends StatelessWidget {
   ///[imagePath] is required parameter for showing image
@@ -88,17 +89,12 @@ class CustomImageView extends StatelessWidget {
     if (imagePath != null) {
       switch (imagePath!.imageType) {
         case ImageType.svg:
-          return Container(
+          return SvgPicture.asset(
+            imagePath!,
             height: height,
             width: width,
-            child: SvgPicture.asset(
-              imagePath!,
-              height: height,
-              width: width,
-              fit: fit ?? BoxFit.contain,
-             // colorFilter:
-               //   ColorFilter.mode(color ?? Colors.transparent, BlendMode.srcIn),
-            ),
+            fit: fit ?? BoxFit.contain,
+            // colorFilter: ColorFilter.mode(color ?? Colors.transparent, BlendMode.srcIn),
           );
         case ImageType.file:
           return Image.file(
@@ -131,14 +127,15 @@ class CustomImageView extends StatelessWidget {
             ),
           );
         case ImageType.png:
-        default:
           return Image.asset(
-            imagePath!,
+            imagePath!, // استبدل هنا بمسار الصورة بامتداد PNG
             height: height,
             width: width,
             fit: fit ?? BoxFit.cover,
             color: color,
           );
+        default:
+          return SizedBox();
       }
     }
     return SizedBox();

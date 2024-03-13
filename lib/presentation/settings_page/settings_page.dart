@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
+import 'package:noor_s_application1/presentation/main_page_one_screen/main_page_one_screen.dart';
+import 'package:noor_s_application1/presentation/sections_one_page/sections_one_page.dart';
+import 'package:noor_s_application1/presentation/sections_page/sections_page.dart';
 import 'package:noor_s_application1/presentation/settings_page_change_password_screen/settings_page_change_password_screen.dart';
 import 'package:noor_s_application1/presentation/settings_page_edit_profile_screen/settings_page_edit_profile_screen.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_leading_image.dart';
@@ -7,8 +10,9 @@ import 'package:noor_s_application1/widgets/app_bar/appbar_subtitle_five.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_title_image.dart';
 import 'package:noor_s_application1/widgets/app_bar/appbar_trailing_circleimage.dart';
 import 'package:noor_s_application1/widgets/app_bar/custom_app_bar.dart';
+import 'package:noor_s_application1/widgets/custom_bottom_bar.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
-
+import 'package:noor_s_application1/utils.dart';
 // ignore_for_file: must_be_immutable
 class SettingsPage extends StatelessWidget {
   SettingsPage({Key? key}) : super(key: key);
@@ -24,6 +28,20 @@ class SettingsPage extends StatelessWidget {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
+            bottomNavigationBar: CustomBottomBar(
+              onChanged: (type) {
+                if (type==BottomBarEnum.mainPageOneScreen){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPageOneScreen()));
+                }else if(type==BottomBarEnum.Vectorerrorcontainer19x19){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>SectionsPage()));
+                }else if(type==BottomBarEnum.Vectorerrorcontainer18x20){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>SectionsOnePage()));
+                }else if(type==BottomBarEnum.Vector20x20){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>SettingsPage()));
+                }
+                print(type);
+              },
+            ),
             resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(context),
             body: SizedBox(
@@ -91,7 +109,7 @@ class SettingsPage extends StatelessWidget {
             }),
         actions: [
           AppbarSubtitleFive(
-              text: "محمد علي",
+              text: empName.toString(),
               margin: EdgeInsets.fromLTRB(23.h, 29.v, 15.h, 3.v)),
           AppbarTrailingCircleimage(
               imagePath: ImageConstant.imgEllipse2,

@@ -2,6 +2,10 @@ import 'package:get/get.dart';
 import 'package:noor_s_application1/controllers/ProductsController.dart';
 import 'package:noor_s_application1/controllers/SectionsController.dart';
 import 'package:noor_s_application1/presentation/main_page_display_a_product_screen/main_page_display_a_product_screen.dart';
+import 'package:noor_s_application1/presentation/main_page_one_screen/main_page_one_screen.dart';
+import 'package:noor_s_application1/presentation/sections_one_page/sections_one_page.dart';
+import 'package:noor_s_application1/presentation/settings_page/settings_page.dart';
+import 'package:noor_s_application1/widgets/custom_bottom_bar.dart';
 
 import '../sections_page/widgets/framenine_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +17,7 @@ import 'package:noor_s_application1/widgets/app_bar/appbar_trailing_circleimage.
 import 'package:noor_s_application1/widgets/app_bar/custom_app_bar.dart';
 import 'package:noor_s_application1/widgets/custom_icon_button.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
-
+import 'package:noor_s_application1/utils.dart';
 // ignore_for_file: must_be_immutable
 class SectionsPage extends StatelessWidget {
   final sectionsController = Get.put(SectionsController());
@@ -43,6 +47,21 @@ class SectionsPage extends StatelessWidget {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
+            bottomNavigationBar: CustomBottomBar(
+              onChanged: (type) {
+                if (type==BottomBarEnum.mainPageOneScreen){
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPageOneScreen()));
+                }else if(type==BottomBarEnum.Vectorerrorcontainer19x19){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>SectionsPage()));
+                }else if(type==BottomBarEnum.Vectorerrorcontainer18x20){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>SectionsOnePage()));
+                }else if(type==BottomBarEnum.Vector20x20){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>SettingsPage()));
+                }
+                print(type);
+              },
+            ),
             resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(context),
             body: SizedBox(
@@ -78,34 +97,41 @@ class SectionsPage extends StatelessWidget {
                                                     bottom: 7.v))
                                           ]))),
                               SizedBox(height: 21.v),
-                              Obx(() {
-                                if (sectionsController.isLoading.value) {
-                                  return Center(child: CircularProgressIndicator());
-                                }
+                              GetBuilder<SectionsController>(
+                                builder: (controller) {
+                                  if (controller.isLoading.value) {
+                                    print("controller.isLoading.value ");
+                                    print(controller.isLoading);
 
-                                if (sectionsController.error.value.isNotEmpty) {
-                                  return Center(child: Text(sectionsController.error.value));
-                                }
+                                    return Center(child: CircularProgressIndicator());
+                                  }
 
-                                return SizedBox(
-                                  height: 80.v,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(width: 17.h);
-                                    },
-                                    itemCount: sectionsController.products.length,
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
+                                  if (controller.error.isNotEmpty) {
+                                    return Center(child: Text(controller.error.string));
+                                  }
+
+                                  return SizedBox(
+                                    height: 80.v,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox(width: 17.h);
+                                      },
+                                      itemCount: controller.products.length,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
                                           onTap: () {
-                                            print(sectionsController.products[index].id);
-                                            productController.getproductsSection(int.parse(sectionsController.products[index].id));
+
+                                            print(controller.products[index].id);
+                                            productController.getProductsSection(int.parse(controller.products[index].id));
                                           },
-                                          child: FramenineItemWidget(sectionsController.products[index].name));
-                                    },
-                                  ),
-                                );
-                              }),
+                                          child: FramenineItemWidget(controller.products[index].name),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
                               SizedBox(height: 39.v),
                               Align(
                                   alignment: Alignment.centerRight,
@@ -128,14 +154,16 @@ class SectionsPage extends StatelessWidget {
 
                                       child: ListView.builder(
                                         scrollDirection: Axis.horizontal, // تحديد الاتجاه الأفقي
-                                        itemCount: productController.productstype.length,
+                                        itemCount: productController.productsSection.length,
                                         itemBuilder: (context, index) {
                                           return InkWell(
                                             onTap: () {
+                                              print(productController.productsSection.length);
+                                              print("idddd ${productController.productsSection[index].id}");
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => MainPageDisplayAProductScreen(productId: productController.products[index].id), // استبدل 123 بقيمة البرامتر الفعلية أو اتركها كـ null إذا كنت لا ترغب في تمريره
+                                                  builder: (context) => MainPageDisplayAProductScreen(productId: productController.productsSection[index].id), // استبدل 123 بقيمة البرامتر الفعلية أو اتركها كـ null إذا كنت لا ترغب في تمريره
                                                 ),
                                               );
                                             },
@@ -182,7 +210,7 @@ class SectionsPage extends StatelessWidget {
             }),
         actions: [
           AppbarSubtitleFive(
-              text: "محمد علي",
+              text: empName.toString(),
               margin: EdgeInsets.fromLTRB(23.h, 29.v, 15.h, 3.v)),
           AppbarTrailingCircleimage(
               imagePath: ImageConstant.imgEllipse2,
@@ -275,7 +303,7 @@ class SectionsPage extends StatelessWidget {
                             sixHundredFifty: "65.0 د.ل",
                             nike: "الماركة : Nike")),
                     SizedBox(height: 9.v),
-                    _buildShoppingbagFILLwghtGRADopsz(context),
+
                     SizedBox(height: 7.v)
                   ]))),
           Expanded(
@@ -357,7 +385,7 @@ class SectionsPage extends StatelessWidget {
                             sixHundredFifty: "$price د.ل",
                             nike: "الماركة : $mark")),
                     SizedBox(height: 11.v),
-                    _buildShoppingbagFILLwghtGRADopsz3(context),
+                    //_buildShoppingbagFILLwghtGRADopsz3(context),
                     SizedBox(height: 7.v)
                   ]))),
 
@@ -419,7 +447,7 @@ class SectionsPage extends StatelessWidget {
                             sixHundredFifty: "65.0 د.ل",
                             nike: "الماركة : Nike")),
                     SizedBox(height: 11.v),
-                    _buildShoppingbagFILLwghtGRADopsz6(context),
+
                     SizedBox(height: 7.v)
                   ]))),
           Expanded(
