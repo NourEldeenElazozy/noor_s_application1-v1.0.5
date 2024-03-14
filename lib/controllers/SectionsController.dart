@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:noor_s_application1/core/utils/priv.dart';
@@ -5,8 +7,9 @@ import 'package:noor_s_application1/models.dart';
 
 class SectionsController extends GetxController {
   var products = <Product>[].obs;
+  var sex = [].obs;
   var isLoading = false.obs;
-
+  RxBool colors = false.obs;
   var error = ''.obs;
 
   @override
@@ -28,8 +31,13 @@ class SectionsController extends GetxController {
         final data = response.data as List;
         products(data.map((e) => Product.fromJson(e)).toList());
         isLoading = false.obs;
+
         isLoading(false);
         isLoading.value = false;
+        sex.clear();
+        sex.add("رجال");
+        sex.add("نساء");
+
         update();
       } else {
         isLoading.value = false;

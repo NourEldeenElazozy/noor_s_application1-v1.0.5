@@ -99,13 +99,14 @@ class ProductsController extends GetxController {
       isLoading(false);
     }
   }
-  Future<void> getProductsSection(int section) async {
+  Future<void> getProductsSection(int section,  int sex) async {
     try {
       isLoading(true);
 
-      final response = await dio.get('http://zadstorely.ly/public/api/products?section=$section');
+      final response = await dio.get('http://zadstorely.ly/public/api/products?section=$section&sex=$sex');
       final data = response.data as Map<String, dynamic>;
 
+      print('http://zadstorely.ly/public/api/products?section=$section&sex=$sex');
       if (data != null) {
         final productList = data['data'] as List;
 

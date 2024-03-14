@@ -40,7 +40,9 @@ class SectionsPage extends StatelessWidget {
 
   TextEditingController shoppingbagFILLwghtGRADopszController5 =
       TextEditingController();
-
+int sex=0;
+int section=0;
+  RxBool colors = false.obs;
   @override
   Widget build(BuildContext context) {
     sectionsController.fetchProducts();
@@ -121,13 +123,72 @@ class SectionsPage extends StatelessWidget {
                                       itemBuilder: (context, index) {
                                         return InkWell(
                                           onTap: () {
-
+                                            section=int.parse(controller.products[index].id);
+                                          if(controller.sex[index]=="نساء"){
+                                            sex=0;
+                                          }else{
+                                            sex=1;
+                                          }
+                                 /*
+                                            print(controller.sex[index]);
                                             print(controller.products[index].id);
-                                            productController.getProductsSection(int.parse(controller.products[index].id));
+                                            productController.getProductsSection(int.parse(controller.products[index].id),sex);
+                                  */
                                           },
                                           child: FramenineItemWidget(controller.products[index].name),
                                         );
                                       },
+                                    ),
+                                  );
+                                },
+                              ),
+                              SizedBox(height: 39.v),
+                              GetBuilder<SectionsController>(
+                                builder: (controller) {
+                                  if (controller.isLoading.value) {
+                                    print("controller.isLoading.value ");
+                                    print(controller.isLoading);
+
+                                    return Center(child: CircularProgressIndicator());
+                                  }
+
+                                  if (controller.error.isNotEmpty) {
+                                    return Center(child: Text(controller.error.string));
+                                  }
+
+                                  return Center(
+                                    child: SizedBox(
+                                      height: 80.v,
+                                      child: ListView.separated(
+                                        scrollDirection: Axis.horizontal,
+                                        separatorBuilder: (context, index) {
+                                          return SizedBox(width: 17.h);
+                                        },
+                                        itemCount: controller.sex.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            onTap: () {
+                                              print("section $section");
+
+                                              if(controller.sex[index]=="نساء"){
+                                                sex=0;
+
+
+
+                                              }else{
+                                                sex=1;
+
+                                              }
+
+                                              print(controller.sex[index]);
+                                              print(controller.products[index].id);
+                                              productController.getProductsSection(section,sex);
+
+                                            },
+                                            child: Center(child: FramenineItemWidget2(controller.sex[index],)),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   );
                                 },
