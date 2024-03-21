@@ -124,6 +124,7 @@ class AppRoutes {
   static const String settingsPageSendAReportScreen =
       '/settings_page_send_a_report_screen';
 
+  static const String OrdersHistory= '/OrdersHistory';
   static const String settingsPageSendAReportActiveScreen =
       '/settings_page_send_a_report_active_screen';
 

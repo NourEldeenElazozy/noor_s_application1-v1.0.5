@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noor_s_application1/core/app_export.dart';
 import 'package:noor_s_application1/presentation/main_page_one_screen/main_page_one_screen.dart';
+import 'package:noor_s_application1/presentation/ordershistory.dart';
 import 'package:noor_s_application1/presentation/sections_one_page/sections_one_page.dart';
 import 'package:noor_s_application1/presentation/sections_page/sections_page.dart';
 import 'package:noor_s_application1/presentation/settings_page_change_password_screen/settings_page_change_password_screen.dart';
@@ -78,6 +79,61 @@ class SettingsPage extends StatelessWidget {
                           SizedBox(height: 34.v),
                           _buildLockFILLWght4(context),
                           SizedBox(height: 49.v),
+                          SizedBox(
+                              height: 152.v,
+                              width: 385.h,
+                              child: Stack(alignment: Alignment.center, children: [
+                                Padding(
+                                    padding: EdgeInsets.only(left: 12.h, right: 7.h, bottom: 54.v),
+                                    child: _buildLockFILLWght(context)),
+                                Align(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                        padding:
+                                        EdgeInsets.symmetric(horizontal: 6.h, vertical: 16.v),
+                                        decoration: AppDecoration.outlineBluegray100
+                                            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
+                                        child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(right: 23.h),
+                                                  child: Text("طلباتي",
+                                                      style:
+                                                      CustomTextStyles.titleSmallErrorContainer)),
+                                              SizedBox(height: 31.v),
+                                              Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    GestureDetector(
+                                                        onTap: () {
+
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(builder: (context) => OrdersHistory()),
+                                                          );
+                                                        },
+                                                        child: Padding(
+                                                            padding: EdgeInsets.only(
+                                                                top: 3.v, bottom: 1.v),
+                                                            child: Text("سجل الطلبات ",
+                                                                style: CustomTextStyles
+                                                                    .titleSmallGray80004))),
+                                                    CustomImageView(
+                                                        imagePath: ImageConstant.imgPackage2Fill0,
+                                                        height: 21.adaptSize,
+                                                        width: 21.adaptSize,
+                                                        margin: EdgeInsets.only(left: 11.h))
+                                                  ]),
+                                              SizedBox(height: 12.v),
+                                              Divider(indent: 5.h, endIndent: 3.h),
+                                              SizedBox(height: 12.v),
+
+                                            ])))
+                              ])),
+                          SizedBox(height: 20.v),
                           Align(
                               alignment: Alignment.centerRight,
                               child: Padding(
@@ -85,7 +141,7 @@ class SettingsPage extends StatelessWidget {
                                   child: Text("تسجيل الخروج",
                                       style: CustomTextStyles
                                           .titleSmallRedA70015))),
-                          SizedBox(height: 392.v),
+                          SizedBox(height: 20.v),
 
                         ]))))));
   }

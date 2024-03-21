@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:noor_s_application1/controllers/ProductsController.dart';
@@ -55,16 +56,45 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                                                     showDialog(
                                                       context: context,
                                                       builder: (BuildContext context) {
-                                                        return ImageViewDialog(imagePath: "https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}");
+                                                        return ImageViewDialog(
+                                                          imagePath: "https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}",
+                                                        );
                                                       },
                                                     );
                                                   },
-                                                  child: CustomImageView(
-                                                  imagePath:
-                                                  "https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}",
-                                                      height: 628.v,
-                                                      width: 428.h,
-                                                      alignment: Alignment.center),
+                                                  child: Container(
+
+                                                    child: CarouselSlider.builder(
+
+                                                      itemCount: productController.OneProduct.first.images.length,
+                                                      itemBuilder: (BuildContext context, int index, int realIndex) {
+                                                        String imagePath = "https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images[index].img}";
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return ImageViewDialog(
+                                                                  imagePath: imagePath,
+                                                                );
+                                                              },
+                                                            );
+                                                          },
+                                                          child: Container(
+
+                                                              color: Colors.red,
+
+                                                              child: Image.network(imagePath, fit: BoxFit.contain,)),
+                                                        );
+                                                      },
+                                                      options: CarouselOptions(
+                                                        aspectRatio: 2.0,
+                                                        enlargeCenterPage: true,
+                                                        scrollDirection: Axis.horizontal,
+                                                        autoPlay: true,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                                 Align(
                                                     alignment: Alignment.center,
@@ -99,10 +129,10 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                         }
 
 
-                        )
-                        )
-                        )
-                        )
+                    )
+                )
+            )
+        )
     );
   }
 
@@ -145,77 +175,77 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                   child: Divider(
                       color: theme.colorScheme.errorContainer.withOpacity(1))),
               SizedBox(height: 26.v),
-            Padding(
-              padding: EdgeInsets.only(top: 3.v, bottom: 5.v),
-              child: Container(
-                width: 200.h,
-                height: 60.v,
-                child: ListView.builder(
+              Padding(
+                padding: EdgeInsets.only(top: 3.v, bottom: 5.v),
+                child: Container(
+                  width: 200.h,
+                  height: 60.v,
+                  child: ListView.builder(
 
-                  scrollDirection: Axis.horizontal,
-                  itemCount: productController.OneProduct.first.colors.length,
-                  itemBuilder: (context, index) {
-                    final color = productController.OneProduct.first.colors[index].color;
-                    return Obx(
-                          () => InkWell(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: productController.OneProduct.first.colors.length,
+                    itemBuilder: (context, index) {
+                      final color = productController.OneProduct.first.colors[index].color;
+                      return Obx(
+                            () => InkWell(
+                          onTap: () {
+                            productController.setSelectedColor(color);
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(int.parse(color.replaceAll("#", "0xFF"))),
+                            ),
+                            child: productController.selectedColor.value == color
+                                ? Icon(
+                              Icons.check,
+                              color: Colors.white,
+                            )
+                                : null,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 3.v, bottom: 5.v),
+                child: Container(
+                  width: 200.h,
+                  height: 60.v,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: productController.OneProduct.first.sizes.length,
+
+                    itemBuilder: (context, index) {
+                      final size = productController.OneProduct.first.sizes[index].size;
+                      print("sizesizesizesize ${productController.OneProduct.first.sizes.length}");
+                      return Obx(() => InkWell(
                         onTap: () {
-                          productController.setSelectedColor(color);
+                          productController.setSelectedSize(size);
                         },
                         child: Container(
-                          width: 50,
-                          height: 50,
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(int.parse(color.replaceAll("#", "0xFF"))),
-                          ),
-                          child: productController.selectedColor.value == color
-                              ? Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          )
-                              : null,
+
+                            width: 50,
+                            height: 50,
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              color: productController.selectedSize.value == size ? Colors.deepOrange : Colors.grey,
+                            ),
+                            child:Center(child: Text( productController.OneProduct.first.sizes[index].size,
+                              style: TextStyle(color: Colors.black),))
+
                         ),
-                      ),
-                    );
-                  },
+                      ));
+                    },
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 3.v, bottom: 5.v),
-              child: Container(
-                width: 200.h,
-                height: 60.v,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: productController.OneProduct.first.sizes.length,
-
-                  itemBuilder: (context, index) {
-                    final size = productController.OneProduct.first.sizes[index].size;
-                    print("sizesizesizesize ${productController.OneProduct.first.sizes.length}");
-                    return Obx(() => InkWell(
-                      onTap: () {
-                        productController.setSelectedSize(size);
-                      },
-                      child: Container(
-
-                        width: 50,
-                        height: 50,
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          color: productController.selectedSize.value == size ? Colors.deepOrange : Colors.grey,
-                        ),
-                        child:Center(child: Text( productController.OneProduct.first.sizes[index].size,
-                        style: TextStyle(color: Colors.black),))
-
-                      ),
-                    ));
-                  },
-                ),
-              ),
-            ),
               SizedBox(height: 32.v),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 6.h),
@@ -239,7 +269,7 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                                 borderRadius: BorderRadiusStyle.roundedBorder5),
                             child: Text("الماركة : ${productController.OneProduct.first.mark}",
                                 style: theme.textTheme.titleMedium)),
-                       /*
+                        /*
                         Container(
                             width: 115.h,
                             padding: EdgeInsets.symmetric(
@@ -402,49 +432,49 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-              content: MainPageDisplayAProductHowManyPicsesDialog(),
-              backgroundColor: Colors.transparent,
-              contentPadding: EdgeInsets.zero,
-              insetPadding: const EdgeInsets.only(left: 0),
-            ));
+          content: MainPageDisplayAProductHowManyPicsesDialog(),
+          backgroundColor: Colors.transparent,
+          contentPadding: EdgeInsets.zero,
+          insetPadding: const EdgeInsets.only(left: 0),
+        ));
   }
 }
-  class ImageViewDialog extends StatefulWidget {
+class ImageViewDialog extends StatefulWidget {
   final String imagePath;
 
   ImageViewDialog({required this.imagePath});
 
   @override
   _ImageViewDialogState createState() => _ImageViewDialogState();
-  }
-  class _ImageViewDialogState extends State<ImageViewDialog> {
+}
+class _ImageViewDialogState extends State<ImageViewDialog> {
   double imageSize = 1.0;
 
   @override
   Widget build(BuildContext context) {
-  return Dialog(
-  child: GestureDetector(
-  onTap: () {
-  setState(() {
-  imageSize = imageSize == 1.0 ? 2.0 : 1.0;
-  });
-  },
-  child: SizedBox(
-  width: MediaQuery.of(context).size.width,
-  height: MediaQuery.of(context).size.height,
-  child: Center(
-  child: InteractiveViewer(
-  minScale: 1.0,
-  maxScale: 4.0,
-  child: Image.network(
-  widget.imagePath,
-  fit: BoxFit.contain,
-  scale: imageSize,
-  ),
-  ),
-  ),
-  ),
-  ),
-  );
+    return Dialog(
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            imageSize = imageSize == 1.0 ? 2.0 : 1.0;
+          });
+        },
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Center(
+            child: InteractiveViewer(
+              minScale: 1.0,
+              maxScale: 4.0,
+              child: Image.network(
+                widget.imagePath,
+                fit: BoxFit.fill,
+                scale: imageSize,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
-  }
+}

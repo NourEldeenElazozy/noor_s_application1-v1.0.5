@@ -11,6 +11,7 @@ dependencies:
   cached_network_image: ^3.2.1
   flutter_svg: ^1.1.6
   carousel_slider: ^4.0.0
+
   smooth_page_indicator: ^1.0.0+2
   intl: ^0.18.0
   get: ^4.6.5

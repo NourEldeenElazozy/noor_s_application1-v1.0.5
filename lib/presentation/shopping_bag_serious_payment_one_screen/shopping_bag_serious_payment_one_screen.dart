@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:noor_s_application1/controllers/AuthController.dart';
 import 'package:noor_s_application1/controllers/ProductsController.dart';
 import 'package:noor_s_application1/core/app_export.dart';
+import 'package:noor_s_application1/models/Cities.dart';
+import 'package:noor_s_application1/presentation/register_create_an_account_one_page/register_create_an_account_one_page.dart';
 import 'package:noor_s_application1/widgets/custom_drop_down.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
@@ -19,8 +22,9 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
       TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final AuthController authController = Get.put(AuthController());
   TextEditingController fullNameController = TextEditingController();
+  TextEditingController CopunController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
@@ -68,61 +72,117 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
 
 
 
-                      Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                controller: fullNameController,
-                                decoration: InputDecoration(labelText: 'الاسم الكامل'),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'الاسم الكامل مطلوب';
-                                  } else if (value.length <= 10) {
-                                    return 'الاسم الكامل يجب أن يتكون من أكثر من 10 أحرف';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                controller: cityController,
-                                decoration: InputDecoration(labelText: 'المدينة'),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'المدينة مطلوبة';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                controller: addressController,
-                                decoration: InputDecoration(labelText: 'العنوان'),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'العنوان مطلوب';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                controller: phoneNumberController,
-                                decoration: InputDecoration(labelText: 'رقم الهاتف'),
-                                keyboardType: TextInputType.phone,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'رقم الهاتف مطلوب';
-                                  } else if (!value.startsWith('09')) {
-                                    return 'رقم الهاتف يجب أن يبدأ بـ 09';
-                                  } else if (value.length != 10) {
-                                    return 'رقم الهاتف يجب أن يتكون من 10 أرقام';
-                                  }
-                                  return null;
-                                },
-                              ),
+                      Container(
+                        width:350.h,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: GetBuilder<AuthController>(
+                                    builder: (controller) {
+                                      if (controller.isLoading ==
+                                          true) {
+                                        return Container(
+                                            width: 50,
+                                            height: 50,
+                                            child:
+                                            CircularProgressIndicator()); // عرض علامة التحميل
+                                      } else {
+                                        return Container(
 
-                            ],
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+
+                                              Text("اختار المدينة"),
+                                              SizedBox(width: 50,),
+                                              Container(
+
+                                                child: DropdownButton<City>(
+                                                  value: authController
+                                                      .selectedCity ??
+                                                      null,
+                                                  items: controller.cities
+                                                      .map((City city) {
+                                                    return DropdownMenuItem<
+
+                                                        City>(
+                                                      value: city,
+                                                      child:
+                                                      Text(city.name),
+
+                                                    );
+                                                  }).toList(),
+                                                  onChanged:
+
+                                                      (City? selectedCity) {
+                                                    cityname=  selectedCity!.name;
+                                                    authController
+                                                        .setSelectedCity(
+                                                        selectedCity);
+                                                  },
+                                                ),
+                                              ),
+
+                                            ],
+                                          ),
+                                        );
+
+                                      }
+                                    },
+                                  ),
+
+                                ),
+                                Divider(),
+                                TextFormField(
+                                  controller: fullNameController,
+                                  decoration: InputDecoration(labelText: 'الاسم الكامل'),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'الاسم الكامل مطلوب';
+                                    } else if (value.length <= 10) {
+                                      return 'الاسم الكامل يجب أن يتكون من أكثر من 10 أحرف';
+                                    }
+                                    return null;
+                                  },
+                                ),
+
+                                TextFormField(
+                                  controller: addressController,
+                                  decoration: InputDecoration(labelText: 'العنوان'),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'العنوان مطلوب';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                TextFormField(
+                                  controller: phoneNumberController,
+                                  decoration: InputDecoration(labelText: 'رقم الهاتف'),
+                                  keyboardType: TextInputType.phone,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'رقم الهاتف مطلوب';
+                                    } else if (!value.startsWith('09')) {
+                                      return 'رقم الهاتف يجب أن يبدأ بـ 09';
+                                    } else if (value.length != 10) {
+                                      return 'رقم الهاتف يجب أن يتكون من 10 أرقام';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                TextFormField(
+                                  controller: CopunController,
+                                  decoration: InputDecoration(labelText: 'رمز القسيمة'),
+
+                                ),
+
+                              ],
+                            ),
                           ),
                         ),
                       ),
