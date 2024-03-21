@@ -96,14 +96,17 @@ class AuthController extends GetxController
 
           userToken.write("token", Token);
 
-          print('token');
-          print(userToken.read('user_id'));
+          print('tokenss');
+          print(userToken.read('id'));
           empName=user.name;
           email=user.email;
           mobile = user.phone;
           address = user.address;
+          print('address $address');
+          user_id = user.id;
 
           print(Token);
+          print('user_id $user_id');
 
           status=1;
         }else{
@@ -173,6 +176,7 @@ class AuthController extends GetxController
       if (res.statusCode == 200) {
         print('true register2');
         print(res.data);
+
         status = 1;
         Token = res.data["token"];
         final user = User.fromJson(res.data);
@@ -211,28 +215,7 @@ class AuthController extends GetxController
   }
 
 
-  Future getLocalData() async {
 
-    try {
-
-      Token= await userToken.read('token');
-      empNo=  await userToken.read('empNo');
-      user_id =await userToken.read('user_id');
-
-
-
-    }  catch (e) {
-      print(e);
-    }
-
-    status=0;
-
-
-
-
-
-
-  }
 
 
   Future<void> updateUserData(String name, String email, String phone,String Token) async {

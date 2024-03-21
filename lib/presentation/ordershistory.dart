@@ -23,6 +23,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
   final OrderController orderController = Get.put(OrderController());
   @override
   Widget build(BuildContext context) {
+    orderController.fetchOrders();
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(context),

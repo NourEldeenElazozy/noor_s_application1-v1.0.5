@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:noor_s_application1/models/Orders.dart';
+import 'package:noor_s_application1/utils.dart';
 
 class OrderController extends GetxController {
   RxList<Order> orders = <Order>[].obs;
@@ -15,7 +16,8 @@ class OrderController extends GetxController {
 
   Future<void> fetchOrders() async {
     try {
-      final response = await http.get(Uri.parse('https://zadstorely.ly/public/api/orders/1/order_product'));
+      print("empNo $user_id");
+      final response = await http.get(Uri.parse('https://zadstorely.ly/public/api/orders/$user_id/order_product'));
       final responseData = json.decode(response.body) as List<dynamic>;
 
       final List<Order> loadedOrders = responseData.map((orderData) {

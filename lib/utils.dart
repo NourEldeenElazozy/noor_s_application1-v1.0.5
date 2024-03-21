@@ -5,6 +5,6 @@ String? address;
 String? email;
 String? empName;
 int? orders;
-String?  user_id;
+int?  user_id;
 const String Url = "https://macchina.ly/api";
 String?  type;
