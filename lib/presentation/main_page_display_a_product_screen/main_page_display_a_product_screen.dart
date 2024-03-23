@@ -329,43 +329,61 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                     print(int.parse(productController.OneProduct.first.count));
                     print(int.parse(productController.number.value.toString()));
                     print('//////////////2');
-                    if(int.parse(productController.OneProduct.first.count)<int.parse(productController.number.value.toString())){
+                    if( productController.number.value <1){
                       final snackBar = SnackBar(
                         backgroundColor: Colors.red,
                         content: Text('عذراً الكمية المطلوبة اكبر من الكمية المتاحة'),
                       );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }else{
-                      productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
-                      final snackBar = SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text('تمت الإضافة إلى السلة بنجاح'),
-                      );
-                    }
-
-                    //onTapAddProductTo(context);
-                  },
-                  child: InkWell(
-                    onTap: () {
-
-                      print('//////////////3');
-                      print(int.parse(productController.OneProduct.first.count));
-                      print(int.parse(productController.number.value.toString()));
-                      print('//////////////3');
                       if(int.parse(productController.OneProduct.first.count)<int.parse(productController.number.value.toString())){
                         final snackBar = SnackBar(
                           backgroundColor: Colors.red,
                           content: Text('عذراً الكمية المطلوبة اكبر من الكمية المتاحة'),
-
                         );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }else{
                         productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
                         final snackBar = SnackBar(
                           backgroundColor: Colors.green,
                           content: Text('تمت الإضافة إلى السلة بنجاح'),
                         );
+                      }
+
+                    }
+
+                    //onTapAddProductTo(context);
+                  },
+                  child: InkWell(
+                    onTap: () {
+                      if( productController.number.value <1){
+                        final snackBar = SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text('عذراً الكمية المطلوبة اكبر من الكمية المتاحة'),
+                        );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
+                      else{
+                        print('//////////////3');
+                        print(int.parse(productController.OneProduct.first.count));
+                        print(int.parse(productController.number.value.toString()));
+                        print('//////////////3');
+                        if(int.parse(productController.OneProduct.first.count)<int.parse(productController.number.value.toString())){
+                          final snackBar = SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text('عذراً الكمية المطلوبة اكبر من الكمية المتاحة'),
+
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }else{
+                          productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
+                          final snackBar = SnackBar(
+                            backgroundColor: Colors.green,
+                            content: Text('تمت الإضافة إلى السلة بنجاح'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      }
+
 
                     },
                     child: Container(
@@ -384,25 +402,33 @@ class MainPageDisplayAProductScreen extends StatelessWidget {
                                   margin: EdgeInsets.symmetric(vertical: 2.v)),
                               InkWell(
                                 onTap: () {
-
-                                  print('//////////////');
-                                  print(int.parse(productController.OneProduct.first.count));
-                                  print(int.parse(productController.number.value.toString()));
-                                  print('//////////////');
-                                  if(int.parse(productController.OneProduct.first.count)<int.parse(productController.number.value.toString())){
+                                  if( productController.number.value <1){
                                     final snackBar = SnackBar(
                                       backgroundColor: Colors.red,
                                       content: Text('عذراً الكمية المطلوبة اكبر من الكمية المتاحة'),
                                     );
                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                   }else{
-                                    productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
-                                    final snackBar = SnackBar(
-                                      backgroundColor: Colors.green,
-                                      content: Text('تمت الإضافة إلى السلة بنجاح'),
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    print('//////////////');
+                                    print(int.parse(productController.OneProduct.first.count));
+                                    print(int.parse(productController.number.value.toString()));
+                                    print('//////////////');
+                                    if(int.parse(productController.OneProduct.first.count)<int.parse(productController.number.value.toString())){
+                                      final snackBar = SnackBar(
+                                        backgroundColor: Colors.red,
+                                        content: Text('عذراً الكمية المطلوبة اكبر من الكمية المتاحة'),
+                                      );
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    }else{
+                                      productController.createProduct(id: int.parse(productController.OneProduct.first.id),name:productController.OneProduct.first.name,image:"https://zadstorely.ly/public/assets/images/products/${productController.OneProduct.first.images.first.img}", quantity: productController.number.value, price: double.parse(productController.OneProduct.first.price));
+                                      final snackBar = SnackBar(
+                                        backgroundColor: Colors.green,
+                                        content: Text('تمت الإضافة إلى السلة بنجاح'),
+                                      );
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    }
                                   }
+
 
                                 },
                                 child: Padding(

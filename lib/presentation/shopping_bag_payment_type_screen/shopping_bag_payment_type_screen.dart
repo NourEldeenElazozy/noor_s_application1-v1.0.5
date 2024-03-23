@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:noor_s_application1/controllers/ProductsController.dart';
 import 'package:noor_s_application1/core/app_export.dart';
 import 'package:noor_s_application1/widgets/custom_elevated_button.dart';
 import 'package:noor_s_application1/widgets/custom_text_form_field.dart';
@@ -12,7 +14,7 @@ class ShoppingBagPaymentTypeScreen extends StatelessWidget {
 
   TextEditingController shoppingbagFILLwghtGRADopszController1 =
       TextEditingController();
-
+  final ProductsController productController = Get.put(ProductsController());
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
@@ -113,7 +115,7 @@ class ShoppingBagPaymentTypeScreen extends StatelessWidget {
                       children: [
                         Padding(
                             padding: EdgeInsets.only(top: 8.v, bottom: 9.v),
-                            child: Text("السعر الكلي  :  65د.ل",
+                            child: Text("السعر الكلي  ${productController.totalPrice.toString()}  د.ل",
                                 style: CustomTextStyles.titleSmallGray80001)),
                         Spacer(flex: 55),
                         SizedBox(
@@ -125,8 +127,9 @@ class ShoppingBagPaymentTypeScreen extends StatelessWidget {
                                     .withOpacity(1))),
                         Spacer(flex: 44),
                         Padding(
+
                             padding: EdgeInsets.only(top: 10.v, bottom: 14.v),
-                            child: Text("عدد المنتجات  :  1",
+                            child: Text("عدد المنتجات ${productController.totalQuantity.toString()}",
                                 style: CustomTextStyles.titleSmallGray80001))
                       ]))
             ]));

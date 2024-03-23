@@ -20,6 +20,7 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
   final ProductsController productsController = Get.put(ProductsController());
   TextEditingController shoppingbagFILLwghtGRADopszController1 =
       TextEditingController();
+  double totalPrice=0;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final AuthController authController = Get.put(AuthController());
@@ -102,27 +103,18 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
                                               Container(
 
                                                 child: DropdownButton<City>(
-                                                  value: authController
-                                                      .selectedCity ??
-                                                      null,
-                                                  items: controller.cities
-                                                      .map((City city) {
-                                                    return DropdownMenuItem<
-
-                                                        City>(
+                                                  value: authController.selectedCity ?? null,
+                                                  items: controller.cities.map((City city) {
+                                                    return DropdownMenuItem<City>(
                                                       value: city,
-                                                      child:
-                                                      Text(city.name),
-
+                                                      child: Text(city.name),
                                                     );
                                                   }).toList(),
-                                                  onChanged:
-
-                                                      (City? selectedCity) {
-                                                    cityname=  selectedCity!.name;
-                                                    authController
-                                                        .setSelectedCity(
-                                                        selectedCity);
+                                                  onChanged: (City? selectedCity) {
+                                                    print(selectedCity!.price.toString());
+                                                    authController.setSelectedCity(selectedCity);
+                                                    totalPrice=0;
+                                                    totalPrice= productController.totalPricecart.value = double.parse(productController.totalPrice.toString()) + selectedCity!.price;
                                                   },
                                                 ),
                                               ),
@@ -247,12 +239,17 @@ class ShoppingBagSeriousPaymentOneScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                            padding: EdgeInsets.only(top: 8.v, bottom: 9.v),
-
-                            child: Text(
-
-                                "السعر الكلي  : ${productController.totalPrice.toString()} د.ل",
-                                style: CustomTextStyles.titleSmallGray80001)),
+                          padding: EdgeInsets.only(top: 8.v, bottom: 9.v),
+                          child: Obx(
+                                () {
+                               totalPrice = productController.totalPricecart.value;
+                              return Text(
+                                "السعر الكلي: ${totalPrice == 0 ? productController.totalPrice.toString() : totalPrice.toString()} د.ل",
+                                style: CustomTextStyles.titleSmallGray80001,
+                              );
+                            },
+                          ),
+                        ),
                         Spacer(flex: 49),
                         SizedBox(
                             height: 41.v,

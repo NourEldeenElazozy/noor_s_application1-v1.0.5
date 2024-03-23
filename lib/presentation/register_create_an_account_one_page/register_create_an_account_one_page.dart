@@ -26,6 +26,8 @@ TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 TextEditingController addressController = TextEditingController();
 String cityname="";
+double totalprice=0;
+
 // ignore_for_file: must_be_immutable
 class RegisterCreateAnAccountOnePageState
     extends State<RegisterCreateAnAccountOnePage>

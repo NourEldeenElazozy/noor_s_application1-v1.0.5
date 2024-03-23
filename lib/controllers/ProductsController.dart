@@ -18,6 +18,7 @@ class ProductsController extends GetxController {
   RxString selectedSize = ''.obs;
   double totalPrice = 0;
   int totalQuantity=0;
+  var totalPricecart = 0.0.obs;
   List<Map<String, dynamic>> cartProductList = <Map<String, dynamic>>[].obs;
   List<Map<String, dynamic>> favProductList = <Map<String, dynamic>>[];
   final number = 0.obs;
@@ -273,13 +274,19 @@ class ProductsController extends GetxController {
     //cartProductList.clear();
     print("cartProductList");
     print(cartProductList.length);
+    totalQuantity+= int.parse(quantity.toString());
+    totalPrice += price*quantity;
 
+    /*
     for (var product in cartProductList) {
       totalPrice += product['price'];
-      totalQuantity += int.parse(product['quantity'].toString());
+      totalQuantity += int.=(product['quantity'].toString());
     }
+     */
     print("totalQuantity");
     print(totalQuantity);
+    print("totalPrice");
+    print(totalPrice);
   }
   void deleteProduct(int id) {
     print("Product with ID ");
